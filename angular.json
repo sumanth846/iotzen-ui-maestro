@@ -48,7 +48,11 @@
                   "maximumError": "40000kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "sourceMap": true,
+              "optimization": true,
+              "aot": true,
+              "buildOptimizer": true
             },
             "development": {
               "optimization": false,
