@@ -56,11 +56,24 @@ export class RxdbSyncService {
   };
 
 
+  getAllCollectionName() {
+    return [
+      'assetinfo'
+    ]
+  }
 
-  async replicationWebSocket(collection: RxCollection) {
+  getCollection(name: string) {
+    if (this.database) {
+      return this.database[name];
+    } else {
+      throw new Error('Db not initiated')
+    }
+  }
+
+  async replicationWebSocket(socketUrl: string, collection: RxCollection) {
     const replicationState = await replicateWithWebsocketServer({
       collection: collection,
-      url: 'ws://localhost:1337/socket'
+      url: socketUrl //'ws://localhost:1337/socket'
     });
 
     // emits each document that was received from the remote
@@ -78,12 +91,13 @@ export class RxdbSyncService {
     // emits true when a replication cycle is running, false when not.
     replicationState.active$.subscribe(bool => console.log('emits true when a replication cycle is running, false when not.', bool));
 
+    console.log('replication started');
+
     return replicationState;
   }
 
 
   replicationWithCouchDB(couchdbUrl: string, collection: RxCollection) {
-
     const replicationState = replicateCouchDB({
       collection: collection,
       url: couchdbUrl,
