@@ -1,0 +1,9 @@
+<div>
+  <button name="startSync" (click)="startSync()">startSync</button>
+
+  <ng-container *ngIf="collection?.$ | async as collection ">
+    <p>{{collection}}</p>
+  </ng-container>
+
+
+</div>

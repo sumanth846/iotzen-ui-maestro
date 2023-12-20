@@ -1,0 +1,18 @@
+<p-dialog header="Payment Verification" [(visible)]="visible" [modal]="true" (onHide)="onHideModal()">
+    <div class=" d-flex justify-content-center align-items-center flex-column">
+        <span>
+            <h5 class="mt-1 mb-1">
+                Please make sure the payment of <span class="amount"> Rs.{{amount}}</span> has been made by the customer
+                towards the Order ID.<span class="amount"> {{orderNo}}</span>. Make sure you have
+                verified on the customer device.
+            </h5>
+        </span>
+        <span class="mt-3 w-100 d-flex justify-content-around">
+            <button pButton type="button" label="Payment Verified" icon="pi pi-check" class="p-button-rounded"
+                (click)="verifyPayment()"></button>
+            <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger"
+                (click)="onHideModal()"></button>
+        </span>
+    </div>
+
+</p-dialog>

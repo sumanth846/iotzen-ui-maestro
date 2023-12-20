@@ -1,0 +1,194 @@
+// @import '../../../../variables';
+
+.payment-modal {
+    width: 50vw;
+    max-width: 700px;
+
+    .modal-body {
+        padding: 0rem 1.5rem 2rem 1.5rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        .intro-heading {
+            font-size: 1.2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+            color: #000;
+            margin-bottom: 2rem;
+        }
+
+        .cta-container {
+            width: 100%;
+            justify-content: space-evenly;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            .payment-container {}
+
+            .cta-div {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+                cursor: pointer;
+                // padding-block: 3.15rem;
+                height: 3rem;
+                color: white;
+                font-weight: 600;
+                font-size: 1.25rem;
+                width: 20rem !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding-inline: 1.75rem;
+                border-radius: 2rem;
+
+                &.pay-online-cta {
+                    background-color: rgb(94, 195, 208);
+                }
+
+                &.pay-cash-cta {
+                    background-color: rgb(94, 208, 145);
+                }
+
+                &.pay-link.cta {
+                    background-color: rgb(94, 208, 145);
+                }
+
+                &.order-serviced {
+                    background-color: rgb(94, 208, 145);
+                }
+
+                &.order-prepared {
+                    background-color: rgb(94, 208, 145);
+                }
+
+                &.order-cancelled {
+                    background-color: #c63737;
+                }
+
+                &.pay-cash-cta.verify {
+                    background-color: #ffec9c;
+                    color: #746423;
+                }
+
+                .icon {
+                    font-size: 2rem;
+                    margin-right: 1.5rem;
+                }
+
+                .pi-external-link {
+                    font-size: 2rem;
+                    margin-right: 1.5rem;
+                }
+
+            }
+        }
+    }
+}
+
+// mobile
+// @media (max-width: $mobile-breakpoint) {
+//     :host ::ng-deep .p-dialog {
+//         width: 100vw;
+//         max-height: 100vh;
+//         height: 100vh !important;
+//         border-radius: 0 !important;
+//     }
+
+//     .payment-modal {
+//         .modal-body {
+//             display: flex;
+//             align-items: center;
+//             flex-direction: column;
+//             padding-left: 0;
+//             padding-right: 0;
+//             height: 100%;
+
+//             .cta-container {
+//                 display: flex;
+//                 justify-content: center;
+//                 flex-direction: column;
+
+//                 .cta-div {
+//                     margin-top: .5rem;
+//                     margin-bottom: .5rem;
+//                     font-weight: 500;
+//                     font-size: 1.5rem;
+
+//                     // width: 100% !important;
+//                     // height: .8rem;
+//                     .icon {
+//                         font-size: 1.5rem;
+//                         margin-right: 1.5rem;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//     // .payment-modal{
+//     //   background-color: red;
+//     //   display: block;
+//     //   width: 90vw;
+//     //   .modal-body{
+//     //     // width: ;
+//     //   }
+//     // }
+
+
+//     :host ::ng-deep {
+//         .p-dialog .p-dialog-header {
+//             margin-top: 4rem;
+//         }
+//     }
+// }
+
+.payments-buttons-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .payment-modal {
+        .modal-body {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            padding-left: 0;
+            padding-right: 0;
+            height: 100%;
+
+            .cta-container {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+
+                .cta-div {
+                    margin-top: .5rem;
+                    margin-bottom: .5rem;
+                    font-weight: 500;
+                    font-size: 1rem;
+                    width: 100% !important;
+                    height: .8rem;
+
+                    .icon {
+                        font-size: 1.5rem;
+                        margin-right: 1.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    // .payment-modal{
+    //   background-color: red;
+    //   display: block;
+    //   width: 90vw;
+    //   .modal-body{
+    //     // width: ;
+    //   }
+    // }
+}

@@ -1,0 +1,68 @@
+:host ::ng-deep {
+    .cart-card-container {
+        // margin-top: -30px;
+        position: relative;
+        background-color: white;
+
+        .cart-card-amount-info-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            p {
+                margin: 0;
+                margin-bottom: 5px;
+                font-size: 1.3rem;
+            }
+
+            .cart-card-amount-info {
+                display: flex;
+            }
+        }
+
+        .cart-card-btns-container {
+            font-size: 1.2rem;
+
+            .cart-card-btns {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+
+                .checkout-cart-btn {
+                    background: color-mix(in srgb, var(--primary-color), black 25%);
+                }
+
+                .p-button {
+                    white-space: nowrap;
+                    font-weight: 600;
+                }
+
+                .reset-cart-btn {
+                    background-color: transparent;
+                    border: 1px solid #D32F2F;
+                    color: #D32F2F;
+                    // &:hover {
+                    // color: white;
+                    // background: var(--primary-color);
+                    // border: 1px solid var(--primary-color);
+                    // }
+                }
+            }
+        }
+
+        .opaque-btn {
+            opacity: 0.5;
+        }
+    }
+}
+
+@media (min-width:760px) and (max-width:1000px) {
+    .cart-card-btns {
+        display: block !important;
+    }
+}
+
+.hide-class {
+    visibility: hidden;
+    pointer-events: none;
+}

@@ -1,0 +1,23 @@
+// @import '../../../../variables';
+
+.amount {
+    color: var(--primary-color);
+}
+
+// @media (max-width: $mobile-breakpoint ) {
+//     :host ::ng-deep .p-dialog {
+//         width: 90vw !important;
+//         max-height: 50vh;
+//         height: max-content !important;
+//         border-radius: 0 !important;
+//     }
+// }
+
+// @media (min-width: $mobile-breakpoint ) {
+//     :host ::ng-deep .p-dialog {
+//         width: 45rem !important;
+//         max-height: 50vh;
+//         height: max-content !important;
+//         border-radius: 0 !important;
+//     }
+// }

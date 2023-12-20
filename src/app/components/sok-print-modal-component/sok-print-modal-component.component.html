@@ -1,0 +1,13 @@
+<p-dialog header="Print Reciept" [(visible)]="visible" [style]="{width: 'max-content'}" [modal]="true"
+    (onHide)="cancelPrint()">
+    <h4>
+        Do you want to generate SOK receipt for Order Id: {{orderNo}}
+    </h4>
+
+    <div class=" w-100 mt-3 w-100 d-flex justify-content-around">
+        <button pButton type="button" label="Yes" icon="pi pi-print" class="p-button-rounded"
+            (click)="printSok()"></button>
+        <button pButton type="button" label="Cancel" icon="pi pi-times" class="p-button-rounded p-button-danger"
+            (click)="cancelPrint()"></button>
+    </div>
+</p-dialog>

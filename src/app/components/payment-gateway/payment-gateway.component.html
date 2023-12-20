@@ -1,0 +1,86 @@
+<p-dialog class="payment-modal" header="Update Payment Status" [(visible)]="modalProps.visibility" [modal]="true"
+    [baseZIndex]="1000" [draggable]="false" [resizable]="false" (onHide)="emitModalHidden()">
+    <div class="m-0 modal-body">
+        <h2 class="intro-heading">Select payment mode for order id: {{modalProps.orderId}}</h2>
+        <div class="payments-buttons-container">
+
+            <div *ngIf="paymentOptions" class="cta-container">
+                <div class="payment-container" *ngFor="let option of paymentOptions">
+
+                    <div *ngIf="option && option=='verify'" class="cta-div pay-cash-cta verify"
+                        (click)="openVerifyCaptureModal()">
+                        <i class="pi pi-check icon"></i>
+                        <p>Verify Transaction</p>
+                    </div>
+
+                    <div *ngIf="option && option=='cash'" class="cta-div pay-cash-cta " (click)="updateCashModal()">
+                        <i class="pi pi-dollar icon"></i>
+                        <p>{{transformOptionName(option)}} Payment</p>
+                    </div>
+
+                    <div *ngIf="option && option=='online'" (click)="updateOnlineModal()"
+                        class="cta-div pay-online-cta">
+                        <i class="pi pi-wallet icon"></i>
+                        <p>{{transformOptionName(option)}} Payment</p>
+                    </div>
+
+                    <div *ngIf="option && option=='Pay Via Link'" (click)="payByLink()" class="cta-div pay-online-cta">
+                        <i class="pi pi-external-link"></i>
+                        <p>{{transformOptionName(option)}}</p>
+                    </div>
+
+
+                </div>
+
+                <div class="cta-container" (click)="emitModalHidden(true)">
+                    <div class="cta-div pay-cash-cta order-cancelled">
+                        <i class="pi pi-times icon"></i>
+                        Cancel
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- verify payment  -->
+        <div class="cta-container">
+            <div class="payment-container">
+
+
+            </div>
+            <!-- <div (click)="updateCashModal()" class="cta-div pay-cash-cta">
+        <i class="pi pi-dollar icon"></i>
+        <p>Cash Payment</p>
+      </div>
+      <div class="cta-div pay-online-cta" (click)="updateOnlineModal()">
+        <i class="pi pi-wallet icon"></i>
+        <p>Online Payment</p>
+      </div>
+       -->
+        </div>
+    </div>
+    <p-confirmPopup key="payment-gateway-popup" [baseZIndex]="10001"></p-confirmPopup>
+</p-dialog>
+
+<app-cash-modal [selectedDineType]="selectedDineType" (showLoader)="recieveLoader($event)" [refundObject]="refundObject"
+    [totalAmount]="modalProps.amt" [orderId]="modalProps.orderId" (emitModalsAreClosed)="amountModalIsClosed()"
+    [showCardModal]="showCardModal" (closeRefundModal)="closeRefundModal()" (emitCashRecieved)="cashIsReceived($event)"
+    [showRefundModal]="showRefundModal" [showCashModal]="showCashModal" [amountToBePaid]="modalProps.amt"
+    [isUpdatingPayment]="modalProps.visibility" [TaxBreakupData]="TaxBreakupDetails"
+    [cartItems]="cartItems"></app-cash-modal>
+<app-online-modal (emitOpenRzp)="openRazorpay()" [branchName]="branchName?.name" (emitQrIsClosed)="qrModalIsClosed()"
+    [qrProps]="qrProps" [showOtherMethods]="showOtherMethods"></app-online-modal>
+<app-external-link-payment-modal [order_id]="(!orderId) ?  (modalProps.id) : orderId?._id "
+    (closeModal)="closeLinkModal()" [showLinkModal]="showLinkModal"
+    [orderId]=" (!orderId) ? (modalProps.orderId) : orderId?.orderId"></app-external-link-payment-modal>
+
+<div *ngIf='showVerifyModal'>
+    <app-verify-payment-modal [visible]="showVerifyModal" (modalClosed)="verifyModalClosed($event)"
+        [orderNo]="modalProps?.orderId" [orderId]="(!orderId) ?  (modalProps.id) : orderId?._id"
+        [amount]="modalProps.amt"></app-verify-payment-modal>
+</div>
+
+
+<div *ngIf='showVerifyCaptureModal'>
+    <app-transaction-proof [isMobileView]="isMobileView" [visible]="showVerifyCaptureModal"
+        (sendTransactionProofSubmit)="transactionSubmited($event, (!orderId) ?  (modalProps.id) : orderId?._id )"></app-transaction-proof>
+</div>
