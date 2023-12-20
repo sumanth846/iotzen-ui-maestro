@@ -1,0 +1,79 @@
+<p-dialog header="Attach Transaction Proof" [(visible)]="visible" [modal]="true" (onHide)="onHideModal()"
+    [closable]="false">
+
+    <div class="transaction-proof-main-container" *ngIf="!showCameraModule">
+
+
+        <div class="transaction-proof-container" (click)="openCameraModal()" *ngIf="!imageSelected">
+            <i class="pi pi-camera"></i>
+            <p>Capture</p>
+        </div>
+
+        <!-- selected image -->
+        <div class="selected-image" *ngIf="cameraImages">
+            <span class="close-button" (click)="closeCameraModal(true)">
+                <i class="pi pi-times"></i>
+            </span>
+            <img [src]="cameraImages" width="30px" alt="">
+        </div>
+
+        <!--********* file upload ********* -->
+
+        <!-- <div class="transaction-proof-container" *ngIf="!isMobileView">
+      <i class="pi pi-upload"></i>
+      <span *ngIf="selectedFile" class="d-flex w-100 justify-content-between container">
+        <div class="text-truncate  row">
+          <p class="text-truncate font-weight-bold font-weight-bold col" >{{ selectedFile.name }}</p>
+       </div>
+      </span>
+      <p *ngIf="!selectedFile">Upload Document</p>
+      <input class="file-input" type="file" (change)="onFileSelected($event)">
+    </div> -->
+
+        <!-- <p class="text-muted font-weight-bold">Or</p> -->
+        <p class="text-muted ">(Optional)</p>
+
+
+        <!-- <div class="w-100 d-flex justify-content-center mt-3">
+
+      <span class="w-100 p-float-label ">
+        <input pInputText id="transaction-id" [(ngModel)]="transactionId" />
+        <label htmlFor="transaction-id">Enter Transaction Id</label>
+      </span>
+    </div> -->
+
+    </div>
+
+    <div class="button-container d-flex mt-5 justify-content-between" *ngIf="!showCameraModule">
+        <p-button label="Submit" styleClass=" left-button" [disabled]="!cameraImages"
+            (click)="submitTransactionProof()"></p-button>
+
+        <p-button label="Skip" styleClass=" p-button-warning right-button" (click)="skip()"></p-button>
+
+    </div>
+
+    <div *ngIf="showCameraModule">
+
+        <!-- <ng-container *ngIf="!cameraImages">
+            <app-camera-module [showCameraModule]="showCameraModule" [isMobileView]='isMobileView'
+                (imageArray)="capturedImages($event)">
+            </app-camera-module>
+        </ng-container> -->
+
+        <div class="images-container d-flex flex-column" *ngIf="cameraImages">
+            <span>
+                <img [src]="cameraImages" alt="Captured Image">
+            </span>
+            <div class="camera-reset-buttons mt-2 w-100 d-flex justify-content-between">
+
+                <p-button label="Ok" icon="pi pi-check" iconPos="left" (click)="imageOk()"></p-button>
+                <p-button label="Retake" icon="pi pi-camera" iconPos="left" (click)="reopenCamera()"></p-button>
+                <p-button label="Cancel" icon="pi pi-times" iconPos="left" (click)="closeCameraModal()"></p-button>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</p-dialog>

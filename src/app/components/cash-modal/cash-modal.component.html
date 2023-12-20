@@ -1,0 +1,198 @@
+<p-dialog class="online-payment" (onHide)="closeCashModal()" [(visible)]="showCashModal" [modal]="true"
+    [baseZIndex]="10000" [draggable]="false" [resizable]="false" [draggable]="true">
+    <ng-template pTemplate="header" class="position-relative">
+        <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between header-container" style="width:93%">
+            <p *ngIf="!showRefundModal && !showCardModal">Cash Payment</p>
+            <p *ngIf="showCardModal">Card Payment</p>
+            <p *ngIf="showRefundModal">Refund the Payment</p>
+            <p *ngIf="orderId && showRefundModal" class="mr-4">Order Id: {{orderId}}</p>
+        </div>
+    </ng-template>
+    <div
+        style="display: flex; flex-direction: row; align-items: center; justify-content: center; width: 100%; height: calc(85vh - 58px);">
+        <div class="order-detail-container">
+            <p *ngIf="orderId" class="mr-4 font-bold" style="font-size: 1.5rem">Order Id: {{orderId}}</p>
+            <div class="orderDetails">
+                <div class="card add-order__products__cartDetails__billDetails__orderDetailsTable">
+                    <p-table [columns]="orderDetailsPrintPageTable" [value]="cartItems" class="productTable">
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th *ngFor="let col of columns">
+                                    {{ col.header }}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-rowIndex="rowIndex" let-columns="columns">
+                            <tr>
+                                <td class="item-name">{{rowIndex+1}}</td>
+                                <td class="item-name">{{item['metaInfo']['itemName']}}</td>
+                                <td class="item-name">{{ item.qty }}</td>
+                                <td>₹
+                                    {{
+                                    (item['qty']) * (selectedDineType ?
+                                    (item?.['metaInfo']?.['prices']?.[selectedDineType] ||
+                                    item?.['metaInfo']?.['price']) :item?.['metaInfo']?.['price'])
+                                    }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="bill-div">
+                    <div class="bill-val">
+                        <p style="margin: 0px;">Subtotal</p>
+                        <p style="margin: 0px;">{{TaxBreakupData?.orderDetails?.payment?.price?.items?.length}} items
+                        </p>
+                        <p style="margin: 0px;">{{TaxBreakupData?.formattedTotal}}</p>
+                    </div>
+                    <div class="bill-val">
+                        <p style="margin: 0px;">Tax</p>
+                        <p *ngIf="TaxBreakupData?.totalTax !== '0.00'"
+                            style="cursor: pointer; margin: 0px; color: #27c0b3;" (click)="toggleTaxDetails()">
+                            {{showTaxDetails? "Hide Details":"View Details"}}</p>
+                        <p style="margin: 0px;">₹{{TaxBreakupData?.orderDetails?.payment?.price?.items?.length > 0 ?
+                            TaxBreakupData?.totalTax : '0.00'}}</p>
+                    </div>
+                    <div class="tax-info"
+                        *ngIf="showTaxDetails && TaxBreakupData?.orderDetails?.payment?.price?.items?.length > 0">
+                        <p style="margin: 0px;" *ngFor="let item of TaxBreakupData?.cartTax">{{item?.name}}
+                            ₹{{item?.amt?.toFixed(2)}}</p>
+                    </div>
+                    <div class="bill-val">
+                        <p style="margin: 0px;">Parcel Charges</p>
+                        <p style="margin: 0px;">{{TaxBreakupData?.orderDetails?.payment?.price?.parcelCharge?.total}}
+                        </p>
+                    </div>
+                    <div class="bill-val font-bold" style="font-size: 2.3rem">
+                        <p style="margin: 0px;">Total</p>
+                        <p class="total-price" style=" margin: 0px;">
+                            ₹{{TaxBreakupData?.orderDetails?.payment?.price?.items?.length > 0 ?
+                            TaxBreakupData?.orderDetails?.payment?.price?.total.toFixed(2):'0.00'}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p *ngIf="showRefundModal" style="margin-bottom: 2rem; font-size: 1.5rem; font-weight: 600;">Actual Amount:
+                ₹ {{(totalAmount)}}</p>
+            <div>
+                <div class="mb-2 d-flex" style="font-size: 1.5rem;">
+                    <i *ngIf="!showRefundModal && !showCardModal"
+                        class="d-flex align-items-center pi pi-money-bill"></i>
+                    <i *ngIf="showCardModal" class="d-flex align-items-center pi pi-credit-card"></i>
+                    <p class="font-bold total-price ml-2">{{(!showRefundModal && !showCardModal) ? 'Cash Payment' :
+                        showCardModal ? 'Card Payment' : ''}}</p>
+                </div>
+                <label *ngIf="!showRefundModal" style="font-size: 1.5rem;">Enter the amount received: ₹</label>
+                <label *ngIf="showRefundModal" style="font-size: 1.5rem;">Enter the amount to be refunded: ₹</label>
+                <div class="d-flex align-items-center">
+                    <input *ngIf="!showRefundModal" min="0" [value]="amountReceived"
+                        (keyup)="getAmountToBeGivenBack($event)" type="number"
+                        style="font-size: 1.5rem; outline: none; border: none; padding-block: 0.75rem; border-radius: 0.5rem; padding-inline: 0.75rem; background-color: #efefef;"
+                        placeholder="Enter the amount">
+                    <p-button label="Rcv. exact Amt" class="p-button-text font-bold ml-4"
+                        (click)="exactAmtSave()"></p-button>
+                </div>
+                <input *ngIf="showRefundModal" autofocus min="0" [value]="amountToRefund"
+                    (keyup)="getAmountToBeRefunded($event)" type="number"
+                    style="font-size: 1.5rem; outline: none; border: none; padding-block: 0.75rem; border-radius: 0.5rem; padding-inline: 0.75rem; background-color: #efefef;"
+                    placeholder="Enter the amount">
+                <div class="charged-amt">
+                    <label *ngIf="showRefundModal && amountToRefund && (amountToRefund <= totalAmount) "
+                        style="font-size: 1.5rem;">Charged Amount: {{(totalAmount - amountToRefund) | number}}</label>
+                    <label class="refund-warn"
+                        *ngIf="showRefundModal && amountToRefund && (amountToRefund > totalAmount)"> Refund amount is
+                        more than total amount !</label>
+
+                </div>
+
+            </div>
+            <p *ngIf="!showRefundModal && !showAmount" style="margin-block: 2rem; font-size: 1.5rem;">{{amountToGiveBack
+                < 0? 'Amount to be paid: ' :'Amount to be given back: ' }}
+        <span style="font-weight: 600;font-size:2rem" [ngStyle]="{' color': amountToGiveBack < 0 ? 'red' :' #6cc027'
+                    }">
+                    ₹{{amountToGiveBack < 0? (-1*amountToGiveBack)?.toFixed(2):amountToGiveBack?.toFixed(2)}} </span>
+            </p>
+            <p *ngIf="showAmount" style="margin-block: 2rem; font-size: 1.5rem;">Amount to be paid:
+                <span style="font-weight: 600;font-size:2rem" [ngStyle]="{'color': 'red'}">
+                    ₹{{(amountToBePaid*1).toFixed(2)}}
+                </span>
+            </p>
+            <div *ngIf="!showRefundModal && showCashModal">
+                <button type="button" class="cash-modal-cta" pButton [disabled]="amountReceived < (amountToBePaid*1)"
+                    (click)="goToPrintReciept()">{{isUpdatingPayment? 'Pay':'Go to print invoice'}}</button>
+            </div>
+            <div *ngIf="showRefundModal" class="refund-modal">
+                <button [loading]="refundInitialisationCall" pButton (click)="startRefund()" class="cash-modal-btn"
+                    label="{{isUpdatingPayment? 'Pay':'Start Refund'}}"
+                    [disabled]="(amountToRefund < (0)) || (amountToRefund > totalAmount) || refundInitialisationCall"></button>
+
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+
+
+<!-- refund-modal -->
+<p-dialog class="online-payment" (onHide)="closeCashModal()" [(visible)]="showActualRefundModal" [modal]="true"
+    [style]="{width: '50vw', height: '85vh' }" [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header" class="position-relative">
+        <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between header-container">
+            <p *ngIf="!showActualRefundModal">Cash Payment</p>
+            <p *ngIf="showActualRefundModal">Refund the Payment</p>
+            <p *ngIf="orderId">Order Id: {{orderId}}</p>
+        </div>
+    </ng-template>
+
+    <!-- <p-dialog class="order-summary" header="Order Summary" [(visible)]="displayReciept">
+      <img class="order-img" src={{orderObject}} alt="reciept">
+  </p-dialog> -->
+    <div class="img-scroll">
+        <img src={{recieptImgUrl}}>
+    </div>
+    <div class="order-actn">
+        <p class="refund-amount" *ngIf="showActualRefundModal"
+            style="margin-bottom: 2rem; font-size: 1.5rem; font-weight: 600;">Actual Amount: ₹ {{(totalAmount) |
+            number}}</p>
+        <div style="display: flex; flex-direction: column;">
+            <label *ngIf="!showActualRefundModal" style="font-size: 1.5rem;white-space: nowrap;">Enter the amount
+                received: ₹</label>
+            <label *ngIf="showActualRefundModal" style="font-size: 1.5rem;white-space: nowrap;">Enter the amount to be
+                refunded: ₹</label>
+            <input *ngIf="showActualRefundModal" autofocus min="0" [value]="amountToRefund"
+                (keyup)="getAmountToBeRefunded($event)" type="number"
+                style="font-size: 1.5rem; outline: none; border: none; padding-block: 0.75rem; border-radius: 0.5rem; padding-inline: 0.75rem; background-color: #efefef;"
+                placeholder="Enter the amount">
+            <div class="charged-amt">
+                <label *ngIf="showActualRefundModal && amountToRefund && (amountToRefund <= totalAmount) ">Charged
+                    Amount: {{(totalAmount - amountToRefund) | number}}</label>
+                <label class="refund-warn"
+                    *ngIf="showActualRefundModal && amountToRefund && (amountToRefund > totalAmount)"> Refund amount is
+                    more than total amount !</label>
+
+            </div>
+
+        </div>
+        <div *ngIf="showActualRefundModal" class="refund-modal">
+            <input class="refund-reason" *ngIf="showActualRefundModal" (keyup)="getReasonForRefund($event)" type="text"
+                placeholder="Enter the reason for refund" />
+            <button [loading]="refundInitialisationCall" pButton (click)="startRefund()" class="cash-modal-btn"
+                label="{{isUpdatingPayment? 'Pay':'Start Refund'}}"
+                [disabled]="(amountToRefund < (0)) || (amountToRefund > totalAmount) || refundInitialisationCall"></button>
+        </div>
+    </div>
+</p-dialog>
+
+
+
+<p-dialog class="pre-refund-dialog" header="Do you want to proceed to Refund ?" (onHide)="closeCashModal()"
+    [(visible)]="showRefundModal" styleClass="refund-modal">
+    <div class="pre-refund-dialog-button-contanier">
+        <p-button (click)="showRefundModal=false" icon="pi pi-times" styleClass="p-button-outlined" label="Cancel"
+            class="p-button-danger"></p-button>
+        <p-button (click)="showActualRefundModal=true" icon="pi pi-check" label="Continue"></p-button>
+    </div>
+</p-dialog>
+
+<p-toast key="refund-status-msg" [position]="'center'"></p-toast>

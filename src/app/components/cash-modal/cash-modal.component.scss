@@ -1,0 +1,254 @@
+// @import'../../../../variables';
+
+:host ::ng-deep .header-container p {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0px;
+}
+
+:host ::ng-deep .online-payment>div>div {
+    width: 70vw;
+    height: 85vh;
+}
+
+:host ::ng-deep .cash-modal-cta {
+    padding-inline: 3rem;
+    padding-block: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    font-size: 1.25rem;
+}
+
+:host ::ng-deep .refund-modal-cta {
+    padding-inline: 1.5rem;
+    padding-block: .75rem;
+    border-radius: 0.25rem;
+    background-color: rgb(94, 208, 145);
+    color: white;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+:host ::ng-deep .refund-modal {
+    margin-top: 15px;
+    height: 20%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+    .refund-reason {
+        margin-top: 5px !important;
+        margin-bottom: 20px !important;
+        font-size: 1.2rem;
+        font-weight: 300;
+        outline: none;
+        width: 100%;
+        border: none;
+        padding-block: 0.75rem;
+        border-radius: 0.5rem;
+        padding-inline: 0.75rem;
+        background-color: #efefef;
+    }
+}
+
+:host ::ng-deep .charged-amt {
+    height: 15px;
+
+    label {
+        height: 12px !important;
+        font-size: 1rem !important;
+    }
+}
+
+:host ::ng-deep .charged-amt .refund-warn {
+    height: 12px;
+    color: red;
+    margin-top: 5px;
+}
+
+:host ::ng-deep .cash-modal-cta:disabled {
+    // background-color: rgb(148 210 176); 
+    cursor: not-allowed;
+}
+
+:host ::ng-deep .p-dialog-content {
+    overflow-y: hidden !important;
+    height: 50% !important;
+}
+
+.order-icon {
+    color: var(--primary-color) !important;
+    margin-top: 30px !important;
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem !important;
+}
+
+.order-img {
+    display: flex;
+    justify-content: center;
+    margin: auto !important;
+    width: 60% !important;
+
+
+}
+
+.order-summary {
+    height: 80% !important;
+}
+
+.order-actn {
+    height: 50% !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(85vh - 58px);
+}
+
+.img-scroll {
+    margin: auto !important;
+    overflow-y: scroll;
+    width: 57% !important;
+    margin-bottom: 5px;
+    border: 4px outset #999;
+    -webkit-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+    height: 40%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+
+    img {
+        margin: auto;
+        width: 80%;
+    }
+}
+
+
+:host ::ng-deep {
+    .refund-modal {
+        width: 20vw !important;
+        height: 15clearvh !important;
+    }
+}
+
+.orderDetails {
+    padding: 15px;
+    border-right: 2px solid var(--primary-color);
+    margin-right: 1rem;
+    min-width: 20vw;
+
+    .add-order__products__cartDetails__billDetails {
+        &__orderDetailsTable {
+            max-height: 40vh;
+            margin-bottom: 0 !important;
+            padding: 0 !important;
+            border: none;
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        &__orderDetailsTable::-webkit-scrollbar {
+            display: none;
+        }
+
+        &__orderDetailsTable::-webkit-scrollbar-thumb {
+            background-color: transparent;
+        }
+    }
+}
+
+.order-detail-container {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+
+@media only screen and (max-width:700px) and (min-width:250px) {
+    :host ::ng-deep .online-payment>div>div {
+        // width: auto;
+        height: 85vh;
+        width: 100vw !important;
+    }
+
+    :host ::ng-deep {
+        .refund-modal {
+            height: 30vh !important;
+            width: 90vw !important;
+        }
+    }
+
+    :host :ng-deep {
+        .p-dialog {
+            width: 100vw;
+        }
+    }
+
+    .refund-amount {
+        margin-top: 1rem;
+    }
+}
+
+.cash-modal-btn {
+    padding: 1.5rem 1rem;
+}
+
+.pre-refund-dialog-button-contanier {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 55px;
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+:host ::ng-deep .pre-refund-dialog {
+    .p-dialog-header-icons {
+        display: none;
+    }
+}
+
+.bill-div {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin-top: 1rem;
+    background: color-mix(in srgb, var(--primary-color), black 25%);
+    color: white;
+
+    .bill-val {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.25rem;
+        white-space: nowrap;
+        gap: 3rem;
+
+        .total-price {
+            background: white;
+            color: #6cc027;
+            padding: 5px;
+        }
+    }
+
+    .tax-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+}
+
+.exactAmtContainer {
+    margin-left: 11.5rem;
+}

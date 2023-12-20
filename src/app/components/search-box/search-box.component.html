@@ -1,0 +1,9 @@
+<div class="searchBoxGrid">
+    <span class="p-input-icon-left p-input-icon-right full-width">
+        <i class="pi pi-search icon-hard"></i>
+        <input (ngModelChange)="searchForSelectedText($event)" [(ngModel)]="searchText" class="form-control searckBox"
+            id="searchBox" name="searchForAsset" placeholder={{getLangLabelForSearch(placeholderValue)}} type="text">
+        <i (click)="clearSearchedText()" *ngIf="searchText" class="pi pi-times clear icon-hard"
+            style="cursor: pointer;"></i>
+    </span>
+</div>

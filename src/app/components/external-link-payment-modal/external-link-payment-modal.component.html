@@ -1,0 +1,20 @@
+<p-dialog [draggable]="false" [resizable]="false" (onHide)="closeLinkModal()" [(visible)]="showLinkModal" [modal]="true"
+    class="pay-via-link">
+    <div class="order-id">
+        <p *ngIf="orderId">Order Id: {{orderId}}</p>
+    </div>
+    <div class="email-container">
+        <h2>Send payment link to customer:</h2>
+        <div class="email">
+            <p-messages></p-messages>
+            <div class="email-reciept">
+                <input [(ngModel)]="customerEmail" id="paymentAddress" placeholder="Enter customer email or phone no."
+                    type="email">
+                <button [disabled]="!customerEmail" (click)="sendRecieptEmail()" class="email-reciept-btn">
+                    <i *ngIf="sendingEmail" class="pi pi-spin pi-spinner"></i>
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+</p-dialog>

@@ -1,0 +1,18 @@
+<p-dialog (onHide)="closeQRModal()" class="online-payment" [(visible)]="qrProps.visibility" [modal]="true"
+    [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+    <ng-template pTemplate="header" class="position-relative">
+        <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between" style="align-items: center;">
+            <div style="display: flex; align-items: center;">
+                <h3 style="margin: 0px; margin-left: 1rem;">{{branchName}} store</h3>
+            </div>
+            <div style="display: flex; align-items: center;" *ngIf="showOtherMethods">
+                <p (click)="openRazorpay()" style="color: var(--primary-color); cursor: pointer;">Try Other Methods?</p>
+            </div>
+        </div>
+    </ng-template>
+
+    <!-- <div style="display: flex; justify-content: center; width: 100%; height: calc(85vh - 64px);"> -->
+    <div class="qr-container">
+        <img [src]="qrProps?.src" />
+    </div>
+</p-dialog>

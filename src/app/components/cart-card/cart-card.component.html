@@ -1,0 +1,23 @@
+<div class="cart-card-container">
+    <div class="cart-card-amount-info-container">
+        <p><i class="pi pi-shopping-cart" style="margin-right: 0.5rem; font-size: 1.5rem;" pBadge
+                value="{{subOrderData?.length ? subOrderLength: numItems}}"></i>Cart</p>
+        <div class="cart-card-amount-info">
+            <p style="margin: 0px;">Total ₹{{subOrderData?.length ? subOrderPrice.toFixed(2) : getCartTotal()}}</p>
+            <!-- <p style="margin: 0px; margin-left: 0.75rem">({{numItems}} Items)</p> -->
+        </div>
+    </div>
+    <div class="cart-card-btns-container">
+        <div class="cart-card-btns">
+            <p-button [ngClass]="{'hide-class' : subOrderData?.length ? selectedDineType === 'table': false}"
+                styleClass="reset-cart-btn" (click)="confirm('resetCart')" label="Clear cart" [raised]="true"
+                severity="danger"></p-button>
+            <p-button *ngIf="cartOrderId?.orderId && !this.subOrderData?.length" styleClass="reset-cart-btn"
+                (click)="confirm('discardOrder')" label="Discard" [raised]="true" severity="danger"></p-button>
+            <p-button [ngClass]="{'opaque-btn': subOrderData?.length && tableCartItems?.length }"
+                styleClass="checkout-cart-btn paymentBtn" (click)="emitCheckoutCart()"
+                *ngIf="showCheckoutButton">{{cartOrderId?.orderId ? 'UPDATE' : 'CHECKOUT'}}</p-button>
+        </div>
+    </div>
+    <p-confirmPopup></p-confirmPopup>
+</div>

@@ -1,0 +1,327 @@
+// ------------- New login page styles-----------
+//body{
+//  position: relative;
+//  min-height: 100vh;
+//}
+
+.main-wrapper{
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    min-height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0px;
+    // color: black;
+    display: flex;
+    align-items: stretch;
+    justify-content:stretch;
+    flex-direction: row;
+    overflow-y: scroll;
+  }
+  .main-wrapper .left-content{
+    background-color: rgb(4,30,57);
+    color: white;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, rgba(4, 30, 57, 0.877), rgba(9, 70, 106, 0.7)), url('../../../assets/images/bg-01.jpg') no-repeat;
+    background-size: cover;
+    overflow-y: auto;
+  }
+  
+  .main-wrapper .right-content{
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .main-wrapper .left-content .logo-container .zen-logo {
+    width: 8.5rem;
+    margin-top: 6.2rem;
+    margin-left: 6rem;
+  }
+  
+  img.right-logo{
+    display: none;
+  }
+  
+  .logo-container-right img{
+    width: fit-content;
+  }
+  
+  .logo-container{
+    display: flex;
+  }
+  .logo-container h3{
+    margin-top: 7rem;
+    margin-left: 1rem;
+  }
+  
+  .login-section input{
+    // border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    padding: 1.5rem;
+  //  color: black
+  
+  }
+  
+  
+  // .login-section label{
+  //   color: #595969;
+  // }
+  
+  .login-section input:focus{
+    outline: none;
+    border: 1px solid #CCCCCC;;
+  }
+  
+  .form-grp{
+    width: 65%;
+  }
+  
+  
+  .login-section h2{
+      margin-top: 10rem;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      text-align: center;
+  }
+  
+  .login-section label{
+    margin-top:1rem;
+  }
+  
+  .login-section .login-btn{
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 1rem;
+    background-color:#0087EE ;
+  }
+  
+  .warning-msg{
+    color: rgb(237, 88, 88) !important;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+  
+  .language-dropdown{
+    width:200px;
+    position: relative;
+    z-index: 11;
+    top: 10px;
+    right: 5px;
+    margin-right: 0px;
+    padding-right: 0px;
+  }
+  
+  .loginValidityMsg {
+      width: 100%;
+      background: #fff;
+      padding: 10px;
+      border-radius: 20px;
+      position: absolute;
+      bottom: 0;
+      color: black;
+  }
+  
+  span.blink{
+      font-size: 17px;
+      color: red;
+      font-weight: 500;
+  }
+  
+  .errorMsg{
+    text-align: center;
+    margin-top:5px;
+    margin-bottom: 10px;
+    color: rgb(237, 88, 88) !important;
+  }
+  
+  .validate-input {
+      position: relative;
+  }
+  
+  .login-section .login-btn:hover{
+    background-color: #0979cf;
+  }
+  .login-section .login-btn:active{
+    background-color: #115f9a;
+  }
+  
+  
+  // password show/hide
+  .zmdi{
+    position: absolute;
+    top: 4rem;
+    right: .8rem;
+    font-size: 1.3rem;
+  }
+  
+  
+  .bullet-points li{
+    list-style: none;
+  }
+  .bullet-points{
+    margin-left: 15%;
+    // margin-right: 50%;
+    margin-top: 20%;
+    display: flex;
+    align-items: baseline;
+    justify-content: baseline;
+    // flex-direction: column;
+  }
+  .bullet-points .bullet-point-text{
+    display: inline-block;
+    font-size: 1.1rem;
+    margin-top: 10px;
+  }
+  
+  .bullet-points img{
+    display: inline-block;
+    padding-right: 15px;
+    width: 2.5rem;
+    margin-top: -3px;
+  }
+  .bullet-points li{
+    margin-top: 1rem;
+  }
+  
+  .powerByZen{
+    position: absolute;
+    bottom: 10px;
+    right: 50.5%;
+    a {
+      color: white;
+      font-size: 10px;
+    }
+  }
+  
+  .ZD-main-logo{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
+    margin: 1.8rem;
+    margin-left: 5.9rem;
+    img{
+      width: 3rem;
+      display: inline-block;
+    }
+    span{
+      display: inline-block;
+      padding-top: 5px;
+      font-size: 1.5rem;
+      margin-top: .6rem;
+      margin-left: -12px;
+    }
+  }
+  .ZD-main-logo.zd-main-right{
+    display: none;
+  }
+  
+  
+  // ---------for Mobile Devices-----------
+  
+  @media only screen and (max-width: 600px){
+    .left-content{
+      display: none;
+    }
+  
+    .form-grp{
+      width: 85%;
+    }
+  
+    img.right-logo{
+      display: block;
+      // margin-top: 8rem;
+      min-width: 5rem;
+      margin-bottom: 2rem;
+    }
+  
+    img.right-logo.hide-logo{
+      display: none;
+    }
+  
+    .main-wrapper .right-content .sign-in{
+      // margin-top: 1.5rem;
+      padding-bottom: 0;
+    }
+    .form-container{
+      margin-top: -40px;
+    }
+    .form-container .login-label{
+      margin-top: 1rem;
+    }
+  
+    .ZD-main-logo.zd-main-right{
+      // display: block;
+      position: static;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 3rem;
+      margin-left: 0;
+      img{
+        width: 2.2rem;
+      }
+      span{
+        display: inline-block;
+        margin-top: 0%;
+        font-size: 1.2rem;
+      }
+    }
+  
+    .powerByZen{
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      right: 0;
+      a {
+        color: #212529;
+      }
+    }
+  
+  .language-dropdown{
+    width: 150px;
+  }
+  .logo-container-right {
+    margin-top: 1rem;
+      img{
+        width: auto;
+        object-fit: contain;
+      }
+   }
+   .login-section h2{
+    margin-top: 0;
+    font-size: 2em
+   }
+   .right-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+   }
+  }
+  
+  :host ::ng-deep .p-dropdown{
+    width: 100%;
+  }
+  @media only screen and (min-width: 412px) and (max-width: 900px) {
+  
+    :host ::ng-deep{
+      p-dropdown.p-dropdown{
+          margin-top: -100px !important;
+      }
+    }
+  }
+  .pi-eye {
+    position: absolute;
+    top: 4rem;
+    right: .8rem;
+    font-size: 1.3rem;
+    color:var(--primary-color);
+  }
+  
