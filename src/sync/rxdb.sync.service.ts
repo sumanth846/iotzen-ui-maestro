@@ -73,7 +73,8 @@ export class RxdbSyncService {
   async replicationWebSocket(socketUrl: string, collection: RxCollection) {
     const replicationState = await replicateWithWebsocketServer({
       collection: collection,
-      url: socketUrl //'ws://localhost:1337/socket'
+      url: socketUrl, //'ws://localhost:1337/socket'
+      live: true,
     });
 
     // emits each document that was received from the remote

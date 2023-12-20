@@ -14,7 +14,8 @@ import { CommonModule } from '@angular/common';
 export class SyncComponent implements OnInit, OnDestroy {
 
   database?: RxDatabase;
-  socketUrl = 'ws://localhost:1337/socket';
+  socketUrl = 'ws://127.0.0.1:9800';
+  couchDb = 'http://10.1.0.94:5984/test/';
   rState?: RxReplicationState<any, unknown>;
   collection?: RxCollection;
 
@@ -33,7 +34,11 @@ export class SyncComponent implements OnInit, OnDestroy {
   async startSync() {
     console.log('startSync');
     this.collection = this.rxdb.getCollection('assetinfo');
-    this.rState = await this.rxdb.replicationWebSocket(this.socketUrl, this.collection);
+    console.log('collection data count', await this.collection.count().exec())
+    // this.rState = await this.rxdb.replicationWebSocket(this.socketUrl, this.collection);
+    await this.rxdb.replicationWithCouchDB(this.couchDb, this.collection);
+
+    console.log('collection data count', await this.collection.count().exec())
   }
 
 }
