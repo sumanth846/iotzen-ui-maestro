@@ -6,7 +6,7 @@ const api_protocol = 'https://';
 export const environment = {
     production: false,
     ws_url: `${api_protocol}${api_host}:${api_port}/`,
-    server_url: `${api_protocol}${api_host}:${api_port}/api/`,
+    server_url: `${api_protocol}${api_host}/api/`,
     login_url: `${api_protocol}${api_host}:${api_port}`,
     dashboard_url: `${api_protocol}${api_host}`,
     server_address: `${api_protocol}${api_host}`,

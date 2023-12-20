@@ -8,8 +8,8 @@ import { ConfigService } from './config.service';
 export class CommonService {
 
   constructor(private http:HttpClient,private configService:ConfigService) { }
-  
-    verifyUserDetails(userDetails) {
+
+    verifyUserDetails(userDetails: { username: string; password: string; language: string; }) {
       return this.http.post(this.configService.appConfig.loginBaseURL + '/authentication/login', userDetails);
     }
 }

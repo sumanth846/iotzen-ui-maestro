@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '../config/environments/environment';
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class ConfigService {
 
     public appConfig = {
@@ -12,15 +14,6 @@ export class ConfigService {
         isSubMenuCollapse: environment.is_sub_menu_collapse,
         dashboardUrl: environment.dashboard_url,
         serverAddress: environment.server_address,
-        inspectionStatus: {
-            SUCCESS: 'success', FAILURE: 'fail', STANDBY: 'standBy'
-        },
-        beaconGateway: {
-            BEACON_GATEWAY_ASSET_NAME: 'beaconGateway'
-        },
-        rfidGateway: {
-            RFID_GATEWAY_ASSET_NAME: 'rfidGateway'
-        },
         services: {
             GENERAL_SERVICE: 'general'
         }
