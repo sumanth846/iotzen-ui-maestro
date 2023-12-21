@@ -376,10 +376,10 @@ export class MaestroPageComponent implements OnInit, OnDestroy {
         }
         if (this.catPositionVal === 'catLeft') {
           this.layoutt = 'horizontal';
-          this.panelSize = [30, 70]
+          this.panelSize = [25, 80]
         } else {
           this.layoutt = 'vertical';
-          this.panelSize = [70, 30]
+          this.panelSize = [80, 25]
         }
         this.orderPageLayout = this.kioskSettings?.orderPageLayout;
       } else {
