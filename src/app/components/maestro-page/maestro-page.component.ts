@@ -37,13 +37,15 @@ import { ToastModule } from 'primeng/toast';
 import { LoaderComponent } from '../loader/loader.component';
 import { OrderCardComponent } from '../order-card-component/order-card-component.component';
 import { SokPrintModalComponent } from '../sok-print-modal-component/sok-print-modal-component.component';
+import { ProductSearchPipe } from '../pipe/product-search.pipe';
+import pk from 'package.json'
 import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-maestro-page',
   standalone: true,
-  imports: [DialogModule, TranslateModule, PaymentGatewayComponent, OrderCardComponent, SokPrintModalComponent, LoaderComponent, ToastModule, PaginatorModule, CartCardComponent, SplitterModule, SelectButtonModule, CommonModule, FormsModule, TooltipModule, SearchBoxComponent, OverlayPanelModule, ButtonModule, ConfirmPopupModule, TableModule, AccordionModule],
+  imports: [TranslateModule, ProductSearchPipe, DialogModule, PaymentGatewayComponent, OrderCardComponent, SokPrintModalComponent, LoaderComponent, ToastModule, PaginatorModule, CartCardComponent, SplitterModule, SelectButtonModule, CommonModule, FormsModule, TooltipModule, SearchBoxComponent, OverlayPanelModule, ButtonModule, ConfirmPopupModule, TableModule, AccordionModule],
   providers: [MessageService, SearchService, ConfirmationService],
   templateUrl: './maestro-page.component.html',
   styleUrl: './maestro-page.component.scss'
@@ -53,6 +55,7 @@ export class MaestroPageComponent implements OnInit, OnDestroy {
   outOfStockTitle: string;
   recieptImgURL: string;
   orderSummaryImgURL: string;
+  versionNumber = pk.version;
   sessionStorageName = CONSTANT.TABLE_SESSION_NAME.KIOSK.ORDER;
   // @ViewChild('tableSwitch') tableSwitch!: OverlayPanel;
   iotZenPosStore = CONSTANT.SOCKET.POS.NAMESPACE.POSSTORE

@@ -46,22 +46,21 @@
            [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
         <div class="add-order__products__cartDetails__selectBtn">
           <p-selectButton [options]="stateOptions" styleClass="dine-p-select-button" optionLabel="label"
-                          optionValue="value">
+            optionValue="value">
             <ng-template let-item pTemplate>
-                            <span (click)="checkSelectedButton(item.value)"
-                                  [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label }}</span>
+              <span (click)="checkSelectedButton(item.value)"
+                [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label }}</span>
             </ng-template>
           </p-selectButton>
           <div *ngIf="additionalDineTypes?.length && kioskSettings?.posUISettings?.dineType?.['otherServices']">
             <p-button styleClass="other-services-button"
-                      [ngClass]="{'other-services-button-active': selectedDineType,'other-services-button-inactive': !selectedDineType}"
-                      (click)="op.toggle($event)" icon="pi pi-star"
-                      [label]="selectedDineType ? (selectedDineType.label) : 'Other'"></p-button>
-            <p-overlayPanel #op [style]="{ width: '350px' }" [showCloseIcon]="true"
-                            styleClass="dine-type-panel">
+              [ngClass]="{'other-services-button-active': selectedDineType,'other-services-button-inactive': !selectedDineType}"
+              (click)="op.toggle($event)" icon="pi pi-star"
+              [label]="selectedDineType ? (selectedDineType.label) : 'Other'"></p-button>
+            <p-overlayPanel #op [style]="{ width: '350px' }" [showCloseIcon]="true" styleClass="dine-type-panel">
               <ng-template pTemplate="content">
-                <button *ngFor="let dineType of additionalDineTypes" pButton
-                        [label]="dineType?.label | titlecase" [ngClass]="{
+                <button *ngFor="let dineType of additionalDineTypes" pButton [label]="dineType?.label | titlecase"
+                  [ngClass]="{
                     'services-button-active': selectedDineType?.label===dineType?.label,
                     'services-button-inactive': selectedDineType?.label!==dineType?.label
                     }" (click)="checkSelectedButton(dineType.value,dineType);op.hide()" class="font-bold"></button>
@@ -304,7 +303,8 @@
                       [selectedDineType]="SelectBtnValue" [changeCartItems]="!isInKitchenItems"
                       (incrementQtyEmitter)="incrementCartQty($event)" (decrementQtyEmitter)="decrementCartQty($event)"
                       (updateShowTaxBreakup)="updateShowTaxBreakup($event)"
-                      *ngFor="let item of (allAvailableProducts$ | async)" [item]="item"></app-order-card>
+                      *ngFor="let item of (allAvailableProducts$ | async) | productSearch:{searchedProduct,categoryIdStr,groupIdStr}"
+                      [item]="item"></app-order-card>
                   </div>
                   <div *ngIf="((allAvailableProducts$ | async)).length === 0" class="noProductFound">
                     <div>
