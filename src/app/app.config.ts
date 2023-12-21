@@ -1,23 +1,45 @@
-import {ApplicationConfig, isDevMode} from '@angular/core';
-import {provideRouter} from '@angular/router';
-import {routes} from './app.routes';
-import {provideStore} from '@ngrx/store';
-import {provideHttpClient, withInterceptors} from '@angular/common/http';
-import {ConfigService} from './services/config.service';
-import {KioskReducer} from './state/kiosk/kiosk.reducer';
-import {provideAnimations} from '@angular/platform-browser/animations';
-import {provideEffects} from "@ngrx/effects";
-import {KioskEffects} from "src/app/state/kiosk/kiosk.effects";
-import {provideStoreDevtools} from "@ngrx/store-devtools";
+import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './app.routes';
+import { provideStore } from '@ngrx/store';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ConfigService } from './services/config.service';
+import { KioskReducer } from './state/kiosk/kiosk.reducer';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideEffects } from "@ngrx/effects";
+import { KioskEffects } from "src/app/state/kiosk/kiosk.effects";
+import { provideStoreDevtools } from "@ngrx/store-devtools";
 import pk from '../../package.json';
-import {authenticationInterceptor} from "src/app/interceptors/httpInterceptor";
-import {provideClientHydration, withNoHttpTransferCache} from "@angular/platform-browser";
+import { authenticationInterceptor } from "src/app/interceptors/httpInterceptor";
+import { provideClientHydration, withNoHttpTransferCache } from "@angular/platform-browser";
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CustomTranslateHttpLoader } from './services/custom.translate.http.loader';
+
+
+
+export function httpLoaderFactory(http: HttpClient) {
+  return new CustomTranslateHttpLoader(http);
+}
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    TranslateService,
+    importProvidersFrom(
+      HttpClientModule,
+      TranslateModule.forRoot({
+        defaultLanguage: 'en',
+        loader: {
+          provide: TranslateLoader,
+          useFactory: httpLoaderFactory,
+          deps: [HttpClient],
+        },
+      })
+    ),
     provideClientHydration(withNoHttpTransferCache()),
     provideRouter(routes),
-    provideStore({kiosk: KioskReducer}),
+    provideStore({ kiosk: KioskReducer }),
     provideEffects([KioskEffects]),
     provideStoreDevtools({
       name: pk.name,
