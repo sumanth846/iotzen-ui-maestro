@@ -24,18 +24,6 @@ export class DownloadUtilService {
         a.download = fileName ? fileName : 'document.xls';
         a.click();
         URL.revokeObjectURL(objectUrl);
-        // this.showLoader = false;
-
-        // this.downloadFiles(url)
-        //     .subscribe(blob => {
-        //         const a = document.createElement('a');
-        //         const objectUrl = URL.createObjectURL(blob);
-        //         a.href = objectUrl;
-        //         a.download = fileName ? fileName : 'document.xls';
-        //         a.click();
-        //         URL.revokeObjectURL(objectUrl);
-        //         this.showLoader = false;
-        //     });
     }
 
     downloadFiles(url: string): Observable<Blob> {
@@ -43,10 +31,5 @@ export class DownloadUtilService {
             responseType: 'blob'
         });
     }
-
-    getLoader(): Observable<boolean> {
-        return;
-    }
-
 
 }

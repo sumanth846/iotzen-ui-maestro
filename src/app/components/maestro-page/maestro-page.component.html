@@ -41,38 +41,38 @@
   <div class="add-order">
     <div class="add-order__products" [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
       <div class="add-order__products__cartDetails"
-           [ngClass]="cartPositionVal === 'cartLeft' ? 'cartBorderRight' : 'cartBorderLeft'">
-           <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between header-container "
-           [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
-        <div class="add-order__products__cartDetails__selectBtn">
-          <p-selectButton [options]="stateOptions" styleClass="dine-p-select-button" optionLabel="label"
-            optionValue="value">
-            <ng-template let-item pTemplate>
-              <span (click)="checkSelectedButton(item.value)"
-                [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label }}</span>
-            </ng-template>
-          </p-selectButton>
-          <div *ngIf="additionalDineTypes?.length && kioskSettings?.posUISettings?.dineType?.['otherServices']">
-            <p-button styleClass="other-services-button"
-              [ngClass]="{'other-services-button-active': selectedDineType,'other-services-button-inactive': !selectedDineType}"
-              (click)="op.toggle($event)" icon="pi pi-star"
-              [label]="selectedDineType ? (selectedDineType.label) : 'Other'"></p-button>
-            <p-overlayPanel #op [style]="{ width: '350px' }" [showCloseIcon]="true" styleClass="dine-type-panel">
-              <ng-template pTemplate="content">
-                <button *ngFor="let dineType of additionalDineTypes" pButton [label]="dineType?.label | titlecase"
-                  [ngClass]="{
+        [ngClass]="cartPositionVal === 'cartLeft' ? 'cartBorderRight' : 'cartBorderLeft'">
+        <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between header-container "
+          [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
+          <div class="add-order__products__cartDetails__selectBtn">
+            <p-selectButton [options]="stateOptions" styleClass="dine-p-select-button" optionLabel="label"
+              optionValue="value">
+              <ng-template let-item pTemplate>
+                <span (click)="checkSelectedButton(item.value)"
+                  [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label }}</span>
+              </ng-template>
+            </p-selectButton>
+            <div *ngIf="additionalDineTypes?.length && kioskSettings?.posUISettings?.dineType?.['otherServices']">
+              <p-button styleClass="other-services-button"
+                [ngClass]="{'other-services-button-active': selectedDineType,'other-services-button-inactive': !selectedDineType}"
+                (click)="op.toggle($event)" icon="pi pi-star"
+                [label]="selectedDineType ? (selectedDineType.label) : 'Other'"></p-button>
+              <p-overlayPanel #op [style]="{ width: '350px' }" [showCloseIcon]="true" styleClass="dine-type-panel">
+                <ng-template pTemplate="content">
+                  <button *ngFor="let dineType of additionalDineTypes" pButton [label]="dineType?.label | titlecase"
+                    [ngClass]="{
                     'services-button-active': selectedDineType?.label===dineType?.label,
                     'services-button-inactive': selectedDineType?.label!==dineType?.label
                     }" (click)="checkSelectedButton(dineType.value,dineType);op.hide()" class="font-bold"></button>
-              </ng-template>
-            </p-overlayPanel>
+                </ng-template>
+              </p-overlayPanel>
+            </div>
+            <p-confirmPopup></p-confirmPopup>
           </div>
-          <p-confirmPopup></p-confirmPopup>
+          <div class="add-order__categoryName" *ngIf="selectedCategoryData && selectedCategoryData?._id">
+            <h4>{{ selectedCategoryData?.['categoryInfo']?.['name'] }}</h4>
+          </div>
         </div>
-        <div class="add-order__categoryName" *ngIf="selectedCategoryData && selectedCategoryData?._id">
-          <h4>{{ selectedCategoryData?.['categoryInfo']?.['name'] }}</h4>
-        </div>
-      </div>
         <div class="add-order__products__cartDetails__billDetails">
           <div *ngIf="showtableData" class="p-2">
             <div class="add-order__products__cartDetails__billDetails__orderheader">
@@ -241,17 +241,15 @@
                     [disabled]="showLoader"></p-button>
                 </div>
                 <div class="payBtn">
-                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment"
-                            icon="pi pi-money-bill" label="CASH" class="p-button-text font-bold"
-                            (click)="paidByCash()"
-                            [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
-                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment"
-                            icon="pi pi-credit-card" label="CARD" class="p-button-text font-bold"
-                            (click)="paidByCash();showCardModal = true"
-                            [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
-                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-qrcode"
-                            label="QR" class="p-button-text font-bold" (click)="payOnline()"
-                            [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
+                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-money-bill" label="CASH"
+                    class="p-button-text font-bold" (click)="paidByCash()"
+                    [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
+                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-credit-card" label="CARD"
+                    class="p-button-text font-bold" (click)="paidByCash();showCardModal = true"
+                    [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
+                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-qrcode" label="QR"
+                    class="p-button-text font-bold" (click)="payOnline()"
+                    [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
                 </div>
               </div>
             </div>
@@ -303,7 +301,7 @@
                       [selectedDineType]="SelectBtnValue" [changeCartItems]="!isInKitchenItems"
                       (incrementQtyEmitter)="incrementCartQty($event)" (decrementQtyEmitter)="decrementCartQty($event)"
                       (updateShowTaxBreakup)="updateShowTaxBreakup($event)"
-                      *ngFor="let item of (allAvailableProducts$ | async) | productSearch:{searchedProduct,categoryIdStr,groupIdStr}"
+                      *ngFor="let item of (allAvailableProducts$ | async) | productSearch:{searchedProduct,categoryIdStr}"
                       [item]="item"></app-order-card>
                   </div>
                   <div *ngIf="((allAvailableProducts$ | async)).length === 0" class="noProductFound">

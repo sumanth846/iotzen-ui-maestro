@@ -7,32 +7,15 @@ import { IProductData } from "src/app/interface/maestro-interface";
   pure: true,
 })
 export class ProductSearchPipe implements PipeTransform {
-  transform(products: IProductData[], { searchedProduct, categoryIdStr, groupIdStr }): IProductData[] {
+  transform(products: IProductData[], { searchedProduct, categoryIdStr }): IProductData[] {
 
-    const extractedData: IProductData[] = groupIdStr ? extractProductsByGroupIds(groupIdStr, products) :
+    const extractedData: IProductData[] =
       categoryIdStr ? extractProductsByCategoryds(categoryIdStr, products) : products;
 
     return extractProductsBySearch(searchedProduct, extractedData)
   }
 }
 
-
-export const extractProductsByGroupIds = (groupIds: string, productsData: IProductData[]): IProductData[] => {
-  const groupIdsArray: string[] = groupIds?.split(",");
-  if (groupIds) {
-    return productsData?.filter((product: IProductData) => {
-      if (product.metaInfo?.groups?.length > 0) {
-        return groupIdsArray?.some((groupId: string) => {
-          return product.metaInfo.groups.some((productGroupId: string) => {
-            return groupId === productGroupId;
-          });
-        });
-      }
-      return false;
-    });
-  }
-  return productsData
-}
 
 
 export const extractProductsByCategoryds = (categoryIds: string, productsData: IProductData[]): IProductData[] => {
