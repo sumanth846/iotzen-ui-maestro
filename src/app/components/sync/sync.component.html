@@ -1,9 +1,16 @@
 <div>
   <button name="startSync" (click)="startSync()">startSync</button>
-  <button name="startSync" (click)="getCount()">startSync {{cCount()}}</button>
+  <button (click)="getCount()">count {{ cCount() }}</button>
+  <button (click)="insertDocs()"> exec</button>
+
+  <ng-container *ngIf="cData.asReadonly()">
+    <div *ngFor="let d of cData() let c">
+      {{ d._data.name }}
+    </div>
+  </ng-container>
 
   <ng-container *ngIf="collection?.$ | async as collection ">
-    <p>{{collection}}</p>
+    <p>{{ collection }}</p>
   </ng-container>
 
 

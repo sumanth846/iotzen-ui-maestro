@@ -107,12 +107,12 @@ export class RxdbSyncService {
       fetch: getFetchWithCouchDBAuthorization('admin', 'admin'),
       autoStart: true,
       pull: {
-        batchSize: 1,
+        batchSize: 60,
         // modifier: docData => {/* ... */ },
         heartbeat: 60000
       },
       push: {
-        batchSize: 1,
+        batchSize: 60,
         // modifier: docData => {/* ... */ }
       }
     });

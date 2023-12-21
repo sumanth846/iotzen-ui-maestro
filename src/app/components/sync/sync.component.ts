@@ -14,10 +14,10 @@ import {CommonModule} from '@angular/common';
 export class SyncComponent implements OnInit, OnDestroy {
   cCount = signal(0);
   database?: RxDatabase;
-  socketUrl = 'ws://127.0.0.1:9800';
-  couchDb = 'http://10.1.0.94:5984/';
+  couchDb = 'http://10.1.0.94:5984/synctest/';
   rState?: RxReplicationState<any, unknown>;
   collection?: RxCollection;
+  cData = signal([]);
 
   constructor(private rxdb: RxdbSyncService) {
   }
@@ -31,10 +31,25 @@ export class SyncComponent implements OnInit, OnDestroy {
     this.rxdb.createRxDB().then(db => this.database = db).catch(console.error);
   }
 
+  async insertDocs() {
+    // const data: Array<RxDocument> = await this.rxdb.getCollection('assetinfo').find().exec();
+    this.collection = this.rxdb.getCollection('assetinfo');
+
+    const data = await this.collection.find({
+      selector: {"assetType": "category"}
+    }).exec();
+
+    // console.log(data);
+    this.cCount.set(data.length);
+
+    this.cData.set(data);
+  }
+
 
   async getCount() {
     this.cCount.set(await this.collection.count().exec())
   }
+
   async startSync() {
     console.log('startSync');
     this.collection = this.rxdb.getCollection('assetinfo');
