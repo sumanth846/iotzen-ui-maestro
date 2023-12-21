@@ -20,11 +20,6 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TableModule } from 'primeng/table';
 import { CartCardComponent } from '../cart-card/cart-card.component';
 import { PaymentGatewayComponent } from '../payment-gateway/payment-gateway.component';
-
-// import { SocketActions } from '../../../../state/Socket';
-// import { getAccountFromLoginResponse } from '../../../../state/Login/login.selector';
-// import { Actions, Subject } from '../../../../auth/rules';
-// import { LoginSelectors } from '../../../../state/Login';
 declare let $: any;
 const KIOSK_STORE_LOCATION = CONSTANT.KIOSK.STORE_lOCATION;
 import { DialogModule } from 'primeng/dialog';
@@ -42,11 +37,13 @@ import { ToastModule } from 'primeng/toast';
 import { LoaderComponent } from '../loader/loader.component';
 import { OrderCardComponent } from '../order-card-component/order-card-component.component';
 import { SokPrintModalComponent } from '../sok-print-modal-component/sok-print-modal-component.component';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-maestro-page',
   standalone: true,
-  imports: [DialogModule, PaymentGatewayComponent, OrderCardComponent, SokPrintModalComponent, LoaderComponent, ToastModule, PaginatorModule, CartCardComponent, SplitterModule, SelectButtonModule, CommonModule, FormsModule, TooltipModule, SearchBoxComponent, OverlayPanelModule, ButtonModule, ConfirmPopupModule, TableModule, AccordionModule],
+  imports: [DialogModule, TranslateModule, PaymentGatewayComponent, OrderCardComponent, SokPrintModalComponent, LoaderComponent, ToastModule, PaginatorModule, CartCardComponent, SplitterModule, SelectButtonModule, CommonModule, FormsModule, TooltipModule, SearchBoxComponent, OverlayPanelModule, ButtonModule, ConfirmPopupModule, TableModule, AccordionModule],
   providers: [MessageService, SearchService, ConfirmationService],
   templateUrl: './maestro-page.component.html',
   styleUrl: './maestro-page.component.scss'
