@@ -14,7 +14,7 @@ export class RxdbSyncService {
 
   database?: RxDatabase;
 
-  async createRxDB(dbName = 'test') {
+  async createRxDB(dbName = 'synctest') {
     if (!this.database) {
       const db = await createRxDatabase({
         name: dbName,
@@ -99,6 +99,7 @@ export class RxdbSyncService {
 
 
   replicationWithCouchDB(couchdbUrl: string, collection: RxCollection) {
+    console.log('RxCollection',collection.database.name);
     const replicationState = replicateCouchDB({
       collection: collection,
       url: couchdbUrl,

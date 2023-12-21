@@ -1,5 +1,6 @@
 <div>
   <button name="startSync" (click)="startSync()">startSync</button>
+  <button name="startSync" (click)="getCount()">startSync {{cCount()}}</button>
 
   <ng-container *ngIf="collection?.$ | async as collection ">
     <p>{{collection}}</p>
