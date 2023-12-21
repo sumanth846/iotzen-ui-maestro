@@ -6,6 +6,10 @@ import {Injectable} from "@angular/core";
 export class PromptUpdateService {
 
   constructor(swUpdate: SwUpdate) {
+    swUpdate.checkForUpdate()
+      .then(e => console.log(e ? 'A new version is available.' : 'Already on the latest version.'))
+      .catch(console.error);
+
     swUpdate.versionUpdates
       .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
       .subscribe(evt => {
