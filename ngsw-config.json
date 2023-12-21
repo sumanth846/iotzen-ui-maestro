@@ -26,5 +26,34 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "kioskAPI",
+      "urls": [
+        "/api/sok/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxSize": 5000,
+        "maxAge": "45m"
+      }
+    },
+    {
+      "name": "images",
+      "urls": [
+        "https://iotzen-public-images.s3.ap-south-1.amazonaws.com/**",
+        "https://iotzen-util.s3.ap-south-1.amazonaws.com/**",
+        "https://ik.imagekit.io/vriq45qik/**",
+        "/kiosk/assets/images/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxSize": 9000,
+        "maxAge": "1d"
+      }
+    }
   ]
 }
