@@ -1,11 +1,12 @@
-<p-dialog [(visible)]="showAddOrdersModal" [closable]="false" [modal]="true"
+<!-- <p-dialog [(visible)]="showAddOrdersModal" [closable]="false" [modal]="true"
           [style]="{width: '100vw', height: '100vh'}" [draggable]="false"
-          [resizable]="false" class="add-order" (onHide)="currentOrderPaid = false;closeAddOrderModal();">
-  <ng-template pTemplate="header" class="position-relative">
+          [resizable]="false" class="add-order" (onHide)="currentOrderPaid = false;closeAddOrderModal();"> -->
+<div class="add-order p-2">
+  <!-- <ng-template pTemplate="header" class="position-relative"> -->
     <div class="header-flex" style="width:98%">
       <div class="right-header-actions" *ngIf="this.kioskSettings?.posUISettings?.layout?.isButtonVisibile">
         <div>
-          <span>Cart</span>
+          <span>Cartss{{showLoader}}</span>
           <p-selectButton [unselectable]="true" class="small-btn" [options]="orderPageLayout?.cart"
                           [(ngModel)]="cartPositionVal" optionLabel="label" optionValue="value">
             <ng-template let-option pTemplate="option">
@@ -44,10 +45,10 @@
                                                 (onChange)="changeSelectedViewValue($event)"></p-selectButton></span>
       </div>
     </div>
-    <div class="cursor-pointer">
+    <!-- <div class="cursor-pointer">
       <i class="pi pi-times" (click)="confirm('dialogClose')" style="font-size: 1.2rem;color:#6c757d"></i>
-    </div>
-  </ng-template>
+    </div> -->
+  <!-- </ng-template> -->
   <div class="add-order">
     <div class="position-relative add-order__header">
       <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between header-container "
@@ -114,10 +115,10 @@
             <h4 *ngIf="cartOrderId?.orderId && !showtableData" class="ml-2">Order Id:
               {{ cartOrderId?.orderId }}</h4>
             <div *ngIf="!showtableData">
-              <div *ngIf="(cartLength$ |async ) > 0 && SelectedViewValue === 'rich'"
+              <div *ngIf="(cartLength$ |async ) > 0"
                    class="card add-order__products__cartDetails__billDetails__table">
                 <div *ngFor="let item of (cartItems$ | async)" class="productItem">
-                  <div class="productItem__imgContainer">
+                  <div class="productItem__imgContainer" *ngIf="SelectedViewValue === 'rich'">
                     <img class="productItem__img"
                          [ngClass]="{'gray-scale': item?.metaInfo?.outOfStockStatus}"
                          [src]="item['imageURL']" height="168px" width="228px" alt="product image"
@@ -145,7 +146,7 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="(cartLength$ |async ) > 0 && SelectedViewValue === 'simple'"
+              <!-- <div *ngIf="(cartLength$ |async ) > 0 && SelectedViewValue === 'simple'"
                    class="card add-order__products__cartDetails__billDetails__table">
                 <p-table [columns]="cols" [value]="(cartItems$ | async)" class="productTable">
                   <ng-template pTemplate="header" let-columns>
@@ -192,7 +193,7 @@
                     </tr>
                   </ng-template>
                 </p-table>
-              </div>
+              </div> -->
             </div>
             <div *ngIf="!isInKitchenItems">
               <ng-container *ngTemplateOutlet="manageTableItems"></ng-container>
@@ -247,8 +248,7 @@
                       </div>
                     </div>
                   </div>
-                  <div
-                    *ngIf="(selectedInKitchenProdcut?.kId!==i?.kId) && (SelectedViewValue === 'simple')">
+                  <div *ngIf="(selectedInKitchenProdcut?.kId!==i?.kId) && (SelectedViewValue === 'simple')">
                     <ng-container *ngFor="let item of i.items; let id = idx"
                                   class="card add-order__products__cartDetails__billDetails__table">
                       <div style="width: 80%; display: flex; justify-content: space-between;">
@@ -399,7 +399,7 @@
                                     *ngFor="let item of (allAvailableProducts$ | async)"
                                     [item]="item"></app-order-card>
                   </div>
-                  <div *ngIf="((allAvailableProducts$ | async))" class="noProductFound">
+                  <div *ngIf="((allAvailableProducts$ | async)).length === 0" class="noProductFound">
                     <div>
                       <p style="margin: 0px;font-size: 2rem" class="d-flex align-items-center"><i
                         class="pi pi-times-circle mr-2" style="font-size: 2rem"></i>No
@@ -480,10 +480,11 @@
       </app-sok-print-modal>
     </div>
   </ng-container>
-  <div *ngIf="!((allAvailableProducts$ | async)?.length) || showLoader" class="loader-overlay">
+  <!-- <div *ngIf="showLoader" class="loader-overlay">
     <app-loader></app-loader>
-  </div>
-</p-dialog>
+  </div> -->
+<!-- </p-dialog> -->
+</div>
 <p-dialog header="Select Order Type" [(visible)]="showwallpaper" [modal]="true" styleClass="order-type-select-dialog"
           [baseZIndex]="1000" [draggable]="false" [resizable]="false" [closable]="false" class="table-order">
   <div *ngIf="showLoader" class="loader-overlay">

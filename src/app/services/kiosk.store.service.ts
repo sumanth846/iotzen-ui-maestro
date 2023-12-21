@@ -453,7 +453,7 @@ export class KioskStoreService {
         const URL =
             this.configService.appConfig.appBaseUrl + "maestro/categoryInfo/products";
         const headers = new HttpHeaders()
-            .set("Authorization", sessionStorage.getItem("token"))
+            .set("Authorization", localStorage.getItem("token"))
             .set("Content-Type", "application/json")
             .set("Accept", "*");
 

@@ -58,7 +58,6 @@ export class KioskAnalyticsService {
     }
 
     getSokTotalAmountByStatusForGraph(startDate, endDate, groupByField, status, series?, pickUpCityIds?, pickUpStoreIds?) {
-        console.log(startDate, endDate, groupByField, status, series, pickUpCityIds, pickUpStoreIds);
         let url = this.configService.appConfig.appBaseUrl + 'sok/analytics/revenueGrp' + '?startDateMilliSec=' + startDate + '&endDateMilliSec=' + endDate + '&groupByField=' + groupByField + '&field=' + status;
         if (series) {
             url = url + '&series=' + series;
@@ -98,7 +97,7 @@ export class KioskAnalyticsService {
             queryUrl = queryUrl + '&reportType=' + reportType
         }
         if (!view) {
-            window.open(queryUrl + '&token=' + sessionStorage.getItem('token'), '_blank');
+            window.open(queryUrl + '&token=' + localStorage.getItem('token'), '_blank');
         } else if (view) {
             if (isCount) {
                 queryUrl = queryUrl + '&isCount=' + isCount;

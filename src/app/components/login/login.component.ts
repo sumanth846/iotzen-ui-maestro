@@ -34,13 +34,12 @@ export class LoginComponent {
     this.commonService.verifyUserDetails(obj).subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
-          sessionStorage.setItem('token', res?.['token']);
+          localStorage.setItem('token', res?.['token']);
           this.router.navigate(['maestro']).then(_r => null);
         }
       },
       error: (err) => {
-        console.log(err);
+        console.error(err);
         this.loginStatus = err?.error?.msg
       }
     })

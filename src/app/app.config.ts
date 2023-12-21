@@ -10,18 +10,17 @@ import { provideEffects } from "@ngrx/effects";
 import { KioskEffects } from "src/app/state/kiosk/kiosk.effects";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
 import pk from '../../package.json';
-import { authenticationInterceptor } from "src/app/interceptors/httpInterceptor";
-import { provideClientHydration, withNoHttpTransferCache } from "@angular/platform-browser";
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CustomTranslateHttpLoader } from './services/custom.translate.http.loader';
-
-
+import { authenticationInterceptor } from "../app/interceptors/httpInterceptor";
+import { provideClientHydration, withNoHttpTransferCache } from "@angular/platform-browser";
+import { AuthService } from './services/auth.service';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export function httpLoaderFactory(http: HttpClient) {
   return new CustomTranslateHttpLoader(http);
 }
-
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -52,5 +51,10 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withInterceptors([authenticationInterceptor])),
     ConfigService,
+    AuthService,
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
 };

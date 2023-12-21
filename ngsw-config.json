@@ -1,0 +1,59 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "kioskAPI",
+      "urls": [
+        "/api/sok/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxSize": 5000,
+        "maxAge": "45m"
+      }
+    },
+    {
+      "name": "images",
+      "urls": [
+        "https://iotzen-public-images.s3.ap-south-1.amazonaws.com/**",
+        "https://iotzen-util.s3.ap-south-1.amazonaws.com/**",
+        "https://ik.imagekit.io/vriq45qik/**",
+        "/kiosk/assets/images/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxSize": 9000,
+        "maxAge": "1d"
+      }
+    }
+  ]
+}
