@@ -161,12 +161,12 @@ export class AssetService {
   }
 
   getRegisteredProfilePhoto(id) {
-    const token = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
     return this.configService.appConfig.appBaseUrl + 'asset/files/' + id + '/profilePhoto' + '?token=' + token;
   }
 
   getRegisteredFaceThumbnail(id) {
-    const token = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
     return this.configService.appConfig.appBaseUrl + 'asset/files/' + id + '/thumbnail' + '?token=' + token;
   }
 
@@ -183,7 +183,7 @@ export class AssetService {
   }
 
   getAssetQrCode(id) {
-    const token = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
     return this.configService.appConfig.appBaseUrl + 'assetQrCode/asset/' + id + '?token=' + token;
   }
 
@@ -192,7 +192,7 @@ export class AssetService {
   }
 
   getDeliveryImageById(id) {
-    const token = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
     return this.configService.appConfig.appBaseUrl + 'deliveryManagement/management/deliveryImages/' + id + '?token=' + token;
   }
 
@@ -420,13 +420,13 @@ export class AssetService {
   }
 
   getImageByIdUrlForSrcTag(fId: any, subType: any) {
-    const token = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
+    const token = localStorage.getItem('token') ? localStorage.getItem('token') : '';
     const url = this.configService.appConfig.appBaseUrl + `asset/fileV2/${fId}?subType=${subType}` + '&token=' + token;
     return url;
   }
 
   getOnCardImageUrl(aId: string, fData: any) {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     return new Promise((resolve, reject) => {
       if (fData) {
         const kFdata = keys(fData);
