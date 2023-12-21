@@ -23,6 +23,7 @@
     "@ngrx/entity": "^17.0.1",
     "@ngrx/store": "^17.0.1",
     "@ngrx/store-devtools": "^17.0.1",
+    "@ngx-translate/core": "^15.0.0",
     "lodash": "^4.17.21",
     "lokijs": "^1.5.12",
     "moment-timezone": "^0.5.43",
