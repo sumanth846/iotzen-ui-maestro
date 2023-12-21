@@ -2,7 +2,7 @@ import {RxCollection, RxDatabase, createRxDatabase} from "rxdb";
 import {getRxStorageLoki} from 'rxdb/plugins/storage-lokijs';
 import * as loki from "lokijs";
 
-import {replicateWithWebsocketServer} from 'rxdb/plugins/replication-websocket';
+// import {replicateWithWebsocketServer} from 'rxdb/plugins/replication-websocket';
 import {getFetchWithCouchDBAuthorization, replicateCouchDB} from 'rxdb/plugins/replication-couchdb';
 import {Injectable} from "@angular/core";
 
@@ -11,8 +11,19 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class RxdbSyncService {
+  couchDb = window.location.protocol === 'https:'
+    ? 'https://devcdb.iotzen.app/synctest/'
+    : 'http://10.1.0.94:5984/synctest/';
 
   database?: RxDatabase;
+  nCollection = 'assetinfo';
+
+  constructor() {
+    this.createRxDB().then(e => {
+      this.database = e;
+      this.replicationWithCouchDB(this.couchDb, this.getCollection(this.nCollection));
+    })
+  }
 
   async createRxDB(dbName = 'synctest') {
     if (!this.database) {
@@ -62,6 +73,12 @@ export class RxdbSyncService {
     ]
   }
 
+  async getAllAssets(name: string) {
+    return this.getCollection('assetinfo').find({
+      selector: {"assetType": name}
+    }).exec();
+  }
+
   getCollection(name: string) {
     if (this.database) {
       return this.database[name];
@@ -70,36 +87,13 @@ export class RxdbSyncService {
     }
   }
 
-  async replicationWebSocket(socketUrl: string, collection: RxCollection) {
-    const replicationState = await replicateWithWebsocketServer({
-      collection: collection,
-      url: socketUrl, //'ws://localhost:1337/socket'
-      live: true,
-    });
 
-    // emits each document that was received from the remote
-    replicationState.received$.subscribe(doc => console.log('emits each document that was received from the remote', doc));
+  dbGetCategoriesAndProducts(){
 
-    // emits each document that was send to the remote
-    replicationState.send$.subscribe(doc => console.log('emits each document that was send to the remote', doc));
-
-    // emits all errors that happen when running the push- & pull-handlers.
-    replicationState.error$.subscribe(error => console.error('emits all errors that happen when running the push- & pull-handlers.', error));
-
-    // emits true when the replication was canceled, false when not.
-    replicationState.canceled$.subscribe(bool => console.log('emits true when the replication was canceled, false when not.', bool));
-
-    // emits true when a replication cycle is running, false when not.
-    replicationState.active$.subscribe(bool => console.log('emits true when a replication cycle is running, false when not.', bool));
-
-    console.log('replication started');
-
-    return replicationState;
   }
 
-
   replicationWithCouchDB(couchdbUrl: string, collection: RxCollection) {
-    console.log('RxCollection',collection.database.name);
+    console.log('RxCollection', collection.database.name);
     const replicationState = replicateCouchDB({
       collection: collection,
       url: couchdbUrl,
@@ -137,4 +131,33 @@ export class RxdbSyncService {
 
     return replicationState;
   }
+
+
+  // async replicationWebSocket(socketUrl: string, collection: RxCollection) {
+  //   const replicationState = await replicateWithWebsocketServer({
+  //     collection: collection,
+  //     url: socketUrl, //'ws://localhost:1337/socket'
+  //     live: true,
+  //   });
+  //
+  //   // emits each document that was received from the remote
+  //   replicationState.received$.subscribe(doc => console.log('emits each document that was received from the remote', doc));
+  //
+  //   // emits each document that was send to the remote
+  //   replicationState.send$.subscribe(doc => console.log('emits each document that was send to the remote', doc));
+  //
+  //   // emits all errors that happen when running the push- & pull-handlers.
+  //   replicationState.error$.subscribe(error => console.error('emits all errors that happen when running the push- & pull-handlers.', error));
+  //
+  //   // emits true when the replication was canceled, false when not.
+  //   replicationState.canceled$.subscribe(bool => console.log('emits true when the replication was canceled, false when not.', bool));
+  //
+  //   // emits true when a replication cycle is running, false when not.
+  //   replicationState.active$.subscribe(bool => console.log('emits true when a replication cycle is running, false when not.', bool));
+  //
+  //   console.log('replication started');
+  //
+  //   return replicationState;
+  // }
+
 }
