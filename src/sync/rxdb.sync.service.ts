@@ -1,10 +1,10 @@
-import { RxCollection, RxDatabase, createRxDatabase } from "rxdb";
-import { getRxStorageLoki } from 'rxdb/plugins/storage-lokijs';
+import {RxCollection, RxDatabase, createRxDatabase} from "rxdb";
+import {getRxStorageLoki} from 'rxdb/plugins/storage-lokijs';
 import * as loki from "lokijs";
 
-import { replicateWithWebsocketServer } from 'rxdb/plugins/replication-websocket';
-import { getFetchWithCouchDBAuthorization, replicateCouchDB } from 'rxdb/plugins/replication-couchdb';
-import { Injectable } from "@angular/core";
+import {replicateWithWebsocketServer} from 'rxdb/plugins/replication-websocket';
+import {getFetchWithCouchDBAuthorization, replicateCouchDB} from 'rxdb/plugins/replication-couchdb';
+import {Injectable} from "@angular/core";
 
 
 @Injectable({
@@ -14,10 +14,10 @@ export class RxdbSyncService {
 
   database?: RxDatabase;
 
-  async createRxDB() {
+  async createRxDB(dbName = 'test') {
     if (!this.database) {
       const db = await createRxDatabase({
-        name: 'test',
+        name: dbName,
         storage: getRxStorageLoki({
           adapter: new loki.LokiLocalStorageAdapter(),
           autoload: true,
@@ -33,9 +33,9 @@ export class RxdbSyncService {
             primaryKey: '_id',
             type: 'object',
             properties: {
-              _id: { type: 'string', "maxLength": 100 },
-              updated: { type: 'date' },
-              created: { type: 'date' },
+              _id: {type: 'string', "maxLength": 100},
+              updated: {type: 'date'},
+              created: {type: 'date'},
               // Add other properties from your Mongoose schema here
             },
             required: ['updated', 'created'],
