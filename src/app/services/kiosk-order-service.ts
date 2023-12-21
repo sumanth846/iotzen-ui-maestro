@@ -4,9 +4,6 @@ import { ConfigService } from "./config.service";
 import { Observable } from "rxjs";
 import { QrRes } from "../interface/maestro-interface";
 
-function _window(): any {
-    return window;
-}
 
 @Injectable({ providedIn: "root" })
 export class KioskOrderService {
