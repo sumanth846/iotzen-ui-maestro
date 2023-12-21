@@ -13,24 +13,29 @@ import pk from '../../package.json';
 import {authenticationInterceptor} from "../app/interceptors/httpInterceptor";
 import {provideClientHydration, withNoHttpTransferCache} from "@angular/platform-browser";
 import { AuthService } from './services/auth.service';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideClientHydration(withNoHttpTransferCache()),
     provideRouter(routes),
-    provideStore({kiosk: KioskReducer}),
+    provideStore({ kiosk: KioskReducer }),
     provideEffects([KioskEffects]),
     provideStoreDevtools({
-      name: pk.name,
-      maxAge: 25,
-      logOnly: isDevMode(),
-      autoPause: true,
-      trace: false,
-      traceLimit: 75,
+        name: pk.name,
+        maxAge: 25,
+        logOnly: isDevMode(),
+        autoPause: true,
+        trace: false,
+        traceLimit: 75,
     }),
     provideAnimations(),
     provideHttpClient(withInterceptors([authenticationInterceptor])),
     ConfigService,
     AuthService,
-  ],
+    provideServiceWorker('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        registrationStrategy: 'registerWhenStable:30000'
+    })
+],
 };
