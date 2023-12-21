@@ -20,11 +20,6 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TableModule } from 'primeng/table';
 import { CartCardComponent } from '../cart-card/cart-card.component';
 import { PaymentGatewayComponent } from '../payment-gateway/payment-gateway.component';
-
-// import { SocketActions } from '../../../../state/Socket';
-// import { getAccountFromLoginResponse } from '../../../../state/Login/login.selector';
-// import { Actions, Subject } from '../../../../auth/rules';
-// import { LoginSelectors } from '../../../../state/Login';
 declare let $: any;
 const KIOSK_STORE_LOCATION = CONSTANT.KIOSK.STORE_lOCATION;
 import { DialogModule } from 'primeng/dialog';
@@ -42,11 +37,15 @@ import { ToastModule } from 'primeng/toast';
 import { LoaderComponent } from '../loader/loader.component';
 import { OrderCardComponent } from '../order-card-component/order-card-component.component';
 import { SokPrintModalComponent } from '../sok-print-modal-component/sok-print-modal-component.component';
+import { ProductSearchPipe } from '../pipe/product-search.pipe';
+import pk from 'package.json'
+import { TranslateModule } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-maestro-page',
   standalone: true,
-  imports: [DialogModule, PaymentGatewayComponent, OrderCardComponent, SokPrintModalComponent, LoaderComponent, ToastModule, PaginatorModule, CartCardComponent, SplitterModule, SelectButtonModule, CommonModule, FormsModule, TooltipModule, SearchBoxComponent, OverlayPanelModule, ButtonModule, ConfirmPopupModule, TableModule, AccordionModule],
+  imports: [TranslateModule, ProductSearchPipe, DialogModule, PaymentGatewayComponent, OrderCardComponent, SokPrintModalComponent, LoaderComponent, ToastModule, PaginatorModule, CartCardComponent, SplitterModule, SelectButtonModule, CommonModule, FormsModule, TooltipModule, SearchBoxComponent, OverlayPanelModule, ButtonModule, ConfirmPopupModule, TableModule, AccordionModule],
   providers: [MessageService, SearchService, ConfirmationService],
   templateUrl: './maestro-page.component.html',
   styleUrl: './maestro-page.component.scss'
@@ -56,6 +55,7 @@ export class MaestroPageComponent implements OnInit, OnDestroy {
   outOfStockTitle: string;
   recieptImgURL: string;
   orderSummaryImgURL: string;
+  versionNumber = pk.version;
   sessionStorageName = CONSTANT.TABLE_SESSION_NAME.KIOSK.ORDER;
   // @ViewChild('tableSwitch') tableSwitch!: OverlayPanel;
   iotZenPosStore = CONSTANT.SOCKET.POS.NAMESPACE.POSSTORE
@@ -379,10 +379,10 @@ export class MaestroPageComponent implements OnInit, OnDestroy {
         }
         if (this.catPositionVal === 'catLeft') {
           this.layoutt = 'horizontal';
-          this.panelSize = [30, 70]
+          this.panelSize = [25, 80]
         } else {
           this.layoutt = 'vertical';
-          this.panelSize = [70, 30]
+          this.panelSize = [80, 25]
         }
         this.orderPageLayout = this.kioskSettings?.orderPageLayout;
       } else {
@@ -738,12 +738,6 @@ export class MaestroPageComponent implements OnInit, OnDestroy {
                   this.amountToBePaid = this.cartOrderId?.payment?.price?.total;
                   this.proceedToBill = true;
                   this.showLoader = false;
-                  // this.kioskOrderService.initiatePayment(data['_id']).subscribe((res)=>{
-                  //   this.proceedToBill = true;
-
-                  //   this.showLoader = false;
-                  //   this.rzPaymentId = res['paymentGateway']['id'];
-                  // }, ()=>{this.showLoader = false})
                 }, () => this.showLoader = false);
               }
               else {

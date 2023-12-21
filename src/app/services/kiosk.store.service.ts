@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 // import { ICategorySequencePayload } from '../../../state/Assets/interfaces/IAsset.category.model';
 import {
     ICategoryMetaInfoPayload, ICategorySequencePayloadStoreLevel, IStoreCategoryUpdatePayload, AvailableKiosks, IGroupsOfKioskSettingsWithModule, IKioskTableFormSettings, IKisoskSettingsMetaData, IPayByCashCartParam,
-    IPayloadForDelinkingSlots, RazorPay, KAgent
+    IPayloadForDelinkingSlots, KAgent
 } from '../interface/maestro-interface';
 // import { number } from 'echarts';
 import { Observable, } from 'rxjs';
@@ -271,138 +271,10 @@ export class KioskStoreService {
         return this.http.put(url, payload);
     }
 
-    //    dashboard api services
-    getDataByCityandLocation() {
-        let url = this.configService.appConfig.appBaseUrl + 'orderToDelivery/analytics/genericGrpdata/?orderSource=kiosk,iotzen-pos';
-        return this.http.get(url)
-    }
-
-    getOrdersDataByCityAndLocations(startDate, endDate, series?, orderPickUpCityId?, orderPickUpStoreId?, grpId?, sumId?, deliveryStatus?, isDashBoard?) {
-        let queryUrl = this.configService.appConfig.appBaseUrl + 'orderToDelivery/analytics/genericGrpdata/?orderSource=kiosk,iotzen-pos'
-        if (startDate) {
-            queryUrl = queryUrl + '&startDate=' + startDate;
-        }
-        if (endDate) {
-            queryUrl = queryUrl + '&endDate=' + endDate;
-        }
-        if (series) {
-            queryUrl = queryUrl + '&series=' + series;
-        }
-        if (orderPickUpCityId) {
-            queryUrl = queryUrl + '&orderPickUpCityId=' + orderPickUpCityId;
-        }
-        if (orderPickUpStoreId) {
-            queryUrl = queryUrl + '&orderPickUpStoreId=' + orderPickUpStoreId;
-        }
-        if (grpId) {
-            queryUrl = queryUrl + '&grpId=' + grpId;
-        }
-        if (sumId) {
-            queryUrl = queryUrl + '&sumId=' + sumId;
-        }
-        if (deliveryStatus) {
-            queryUrl = queryUrl + '&deliveryStatus=' + deliveryStatus;
-        }
-        if (isDashBoard) {
-            queryUrl = queryUrl + '&isDashBoard=' + isDashBoard;
-        }
-        queryUrl = queryUrl + '&dateField=pickup.created'
-        return this.http.get(queryUrl);
-    }
-
-    getPopularProducts(startDate, endDate, orderPickUpCityId, orderPickUpStoreId, pickupStatus, grpId, series?) {
-        let url = this.configService.appConfig.appBaseUrl + 'orderToDelivery/analytics/productsAnalytics/?orderSource=kiosk,iotzen-pos'
-        if (startDate) {
-            url = url + '&startDate=' + startDate
-        }
-        if (endDate) {
-            url = url + '&endDate=' + endDate
-        }
-        if (orderPickUpStoreId) {
-            url = url + '&orderPickUpStoreId=' + orderPickUpStoreId
-        }
-        if (orderPickUpCityId) {
-            url = url + '&orderPickUpCityId=' + orderPickUpCityId
-        }
-        if (pickupStatus) {
-            url = url + '&pickupStatus=' + pickupStatus
-        }
-        if (grpId) {
-            url = url + '&grpId=' + grpId
-        }
-        if (series) {
-            url = url + '&series=' + series
-
-        }
-        url = url + '&dateField=pickup.created'
-        return this.http.get(url)
-    }
-
-    getOrdersByDay(startDate, endDate, series, cityId, locationId, grpId?) {
-        let url = this.configService.appConfig.appBaseUrl + 'orderToDelivery/analytics/genericGrpdata/?orderSource=kiosk,iotzen-pos'
-
-        if (startDate) {
-            url = url + '&startDate=' + startDate
-        }
-        if (endDate) {
-            url = url + '&endDate=' + endDate
-        }
-        if (series) {
-            url = url + '&series=' + series
-        }
-        if (cityId) {
-            url = url + '&orderPickUpCityId=' + cityId
-        }
-        if (locationId) {
-            url = url + '&orderPickUpStoreId=' + locationId
-        }
-        if (grpId) {
-            url = url + '&grpId=' + grpId
-        }
-        url = url + '&sumId=payment.price.total&dateField=pickup.created&paymentStatus=paid,refunded';
-
-        return this.http.get(url)
-
-    }
-
-    setNewOrderStatus(orderIds, newStatus) {
-        const url = this.configService.appConfig.appBaseUrl + `sok/orders/updatePickUpStatus/${newStatus}`;
-        const payload = {
-            orderIds: orderIds
-        }
-        return this.http.put(url, payload);
-    }
-
-
-    getTotalPayment(startDate, endDate, orderPickUpCityId, orderPickUpStoreId) {
-        let url = this.configService.appConfig.appBaseUrl + 'orderToDelivery/analytics/totalAmount?orderSource=kiosk,iotzen-pos&paymentStatus=paid&dateField=pickup.created'
-        if (startDate) {
-            url = url + '&startDate=' + startDate
-        }
-        if (endDate) {
-            url = url + '&endDate=' + endDate
-        }
-        if (orderPickUpCityId) {
-            url = url + '&orderPickUpCityId=' + orderPickUpCityId
-        }
-        if (orderPickUpStoreId) {
-            url = url + '&orderPickUpStoreId=' + orderPickUpStoreId
-        }
-        return this.http.get(url)
-    }
 
     getKioskSettings() {
         let url = this.configService.appConfig.appBaseUrl + 'sok/settings/'
         return this.http.get(url)
-    }
-
-    getKioskSettingsByModuleType(moduleType) {
-        let url = this.configService.appConfig.appBaseUrl + 'sok/settings/moduleType/'
-        if (moduleType) {
-            url = url + moduleType
-        }
-        return this.http.get(url)
-
     }
 
 
@@ -515,10 +387,6 @@ export class KioskStoreService {
         return this.http.put<{ msg: string, status: boolean }>(url, formData)
     }
 
-    effectGetRazorpayData(type: string): Observable<RazorPay> {
-        const url = this.configService.appConfig.appBaseUrl + `pluginManager/payment/type/` + type;
-        return this.http.get<RazorPay>(url);
-    }
 
     dynamicAPIfromMetaData(urlRes, method) {
         const url = this.configService.appConfig.appBaseUrl + urlRes

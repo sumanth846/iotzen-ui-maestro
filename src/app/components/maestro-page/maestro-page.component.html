@@ -1,113 +1,89 @@
-<!-- <p-dialog [(visible)]="showAddOrdersModal" [closable]="false" [modal]="true"
-          [style]="{width: '100vw', height: '100vh'}" [draggable]="false"
-          [resizable]="false" class="add-order" (onHide)="currentOrderPaid = false;closeAddOrderModal();"> -->
 <div class="add-order p-2">
-  <!-- <ng-template pTemplate="header" class="position-relative"> -->
-    <div class="header-flex" style="width:98%">
-      <div class="right-header-actions" *ngIf="this.kioskSettings?.posUISettings?.layout?.isButtonVisibile">
-        <div>
-          <span>Cartss{{showLoader}}</span>
-          <p-selectButton [unselectable]="true" class="small-btn" [options]="orderPageLayout?.cart"
-                          [(ngModel)]="cartPositionVal" optionLabel="label" optionValue="value">
-            <ng-template let-option pTemplate="option">
-              <ng-container [ngSwitch]="option.label">
-                <i *ngSwitchCase="'Cl'" class="pi pi-arrow-left"></i>
-                <i *ngSwitchCase="'Cr'" class="pi pi-arrow-right"></i>
-              </ng-container>
-            </ng-template>
-          </p-selectButton>
-        </div>
-        <div class="view-type">
-          <span>Category</span>
-          <p-selectButton [unselectable]="true" class="small-btn" [options]="orderPageLayout?.category"
-                          [(ngModel)]="catPositionVal" optionLabel="label" optionValue="value"
-                          (onChange)="onCatPositionChange($event)">
-            <ng-template let-option pTemplate="option">
-              <ng-container [ngSwitch]="option.label">
-                <i *ngSwitchCase="'catL'" class="pi pi pi-arrows-h"></i>
-                <i *ngSwitchCase="'catB'" class="pi pi-arrows-v"></i>
-              </ng-container>
-            </ng-template>
-          </p-selectButton>
-        </div>
+  <div class="header-flex" style="width:98%">
+    <div class="right-header-actions" *ngIf="this.kioskSettings?.posUISettings?.layout?.isButtonVisibile">
+      <div>
+        <span>Cart</span>
+        <p-selectButton [unselectable]="true" class="small-btn" [options]="orderPageLayout?.cart"
+          [(ngModel)]="cartPositionVal" optionLabel="label" optionValue="value">
+          <ng-template let-option pTemplate="option">
+            <ng-container [ngSwitch]="option.label">
+              <i *ngSwitchCase="'Cl'" class="pi pi-arrow-left"></i>
+              <i *ngSwitchCase="'Cr'" class="pi pi-arrow-right"></i>
+            </ng-container>
+          </ng-template>
+        </p-selectButton>
       </div>
-      <button *ngIf="maestroInfoData?.posData?.showSales" pButton (click)="downloadProductSalesReport(true, true)"
-              [pTooltip]="'Click to view today sales'">Sales
-      </button>
-      <p style="font-size: 1.5rem;font-weight:600">{{ current_branch?.name }}</p>
-      <div class="left-header-actions">
-                <span class="search-container"><app-search-box class="full-width"
-                                                               [isPlaceholderTranslationNotReq]="true"
-                                                               [placeholderValueInput]="placeholderValue"
-                                                               [id]="'unlinked-product'"></app-search-box></span>
-        <span class="view-type"><p-selectButton [unselectable]="true" [options]="viewOption"
-                                                [(ngModel)]="SelectedViewValue" optionLabel="label" optionValue="value"
-                                                (onChange)="changeSelectedViewValue($event)"></p-selectButton></span>
+      <div class="view-type">
+        <span>Category</span>
+        <p-selectButton [unselectable]="true" class="small-btn" [options]="orderPageLayout?.category"
+          [(ngModel)]="catPositionVal" optionLabel="label" optionValue="value" (onChange)="onCatPositionChange($event)">
+          <ng-template let-option pTemplate="option">
+            <ng-container [ngSwitch]="option.label">
+              <i *ngSwitchCase="'catL'" class="pi pi pi-arrows-h"></i>
+              <i *ngSwitchCase="'catB'" class="pi pi-arrows-v"></i>
+            </ng-container>
+          </ng-template>
+        </p-selectButton>
       </div>
     </div>
-    <!-- <div class="cursor-pointer">
-      <i class="pi pi-times" (click)="confirm('dialogClose')" style="font-size: 1.2rem;color:#6c757d"></i>
-    </div> -->
-  <!-- </ng-template> -->
+    <button *ngIf="maestroInfoData?.posData?.showSales" pButton (click)="downloadProductSalesReport(true, true)"
+      [pTooltip]="'Click to view today sales'">Sales
+    </button>
+    <p style="font-size: 1.5rem;font-weight:600">{{ current_branch?.name }}</p>
+    <div class="left-header-actions">
+      <span class="search-container"><app-search-box class="full-width" [isPlaceholderTranslationNotReq]="true"
+          [placeholderValueInput]="placeholderValue" [id]="'unlinked-product'"></app-search-box></span>
+      <span class="view-type"><p-selectButton [unselectable]="true" [options]="viewOption"
+          [(ngModel)]="SelectedViewValue" optionLabel="label" optionValue="value"
+          (onChange)="changeSelectedViewValue($event)"></p-selectButton></span>
+    </div>
+  </div>
   <div class="add-order">
-    <div class="position-relative add-order__header">
-      <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between header-container "
-           [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
-        <div class="add-order__products__cartDetails__selectBtn"
-             [ngClass]="cartPositionVal === 'cartLeft' ? 'cartBorderRight' : 'cartBorderLeft'">
-
-          <p-selectButton [options]="stateOptions" styleClass="dine-p-select-button" optionLabel="label"
-                          optionValue="value">
-            <ng-template let-item pTemplate>
-                            <span (click)="checkSelectedButton(item.value)"
-                                  [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label }}</span>
-            </ng-template>
-          </p-selectButton>
-
-          <!-- Overlay -->
-          <div
-            *ngIf="additionalDineTypes?.length && kioskSettings?.posUISettings?.dineType?.['otherServices']">
-            <p-button styleClass="other-services-button"
-                      [ngClass]="{'other-services-button-active': selectedDineType,'other-services-button-inactive': !selectedDineType}"
-                      (click)="op.toggle($event)" icon="pi pi-star"
-                      [label]="selectedDineType ? (selectedDineType.label) : 'Other'"></p-button>
-            <p-overlayPanel #op [style]="{ width: '350px' }" [showCloseIcon]="true"
-                            styleClass="dine-type-panel">
-              <ng-template pTemplate="content">
-                <button *ngFor="let dineType of additionalDineTypes" pButton
-                        [label]="dineType?.label | titlecase" [ngClass]="{
+    <div class="add-order__products" [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
+      <div class="add-order__products__cartDetails"
+        [ngClass]="cartPositionVal === 'cartLeft' ? 'cartBorderRight' : 'cartBorderLeft'">
+        <div class="col-3 float-md-right mr-0 d-flex col-12 justify-content-between header-container "
+          [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
+          <div class="add-order__products__cartDetails__selectBtn">
+            <p-selectButton [options]="stateOptions" styleClass="dine-p-select-button" optionLabel="label"
+              optionValue="value">
+              <ng-template let-item pTemplate>
+                <span (click)="checkSelectedButton(item.value)"
+                  [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label }}</span>
+              </ng-template>
+            </p-selectButton>
+            <div *ngIf="additionalDineTypes?.length && kioskSettings?.posUISettings?.dineType?.['otherServices']">
+              <p-button styleClass="other-services-button"
+                [ngClass]="{'other-services-button-active': selectedDineType,'other-services-button-inactive': !selectedDineType}"
+                (click)="op.toggle($event)" icon="pi pi-star"
+                [label]="selectedDineType ? (selectedDineType.label) : 'Other'"></p-button>
+              <p-overlayPanel #op [style]="{ width: '350px' }" [showCloseIcon]="true" styleClass="dine-type-panel">
+                <ng-template pTemplate="content">
+                  <button *ngFor="let dineType of additionalDineTypes" pButton [label]="dineType?.label | titlecase"
+                    [ngClass]="{
                     'services-button-active': selectedDineType?.label===dineType?.label,
                     'services-button-inactive': selectedDineType?.label!==dineType?.label
                     }" (click)="checkSelectedButton(dineType.value,dineType);op.hide()" class="font-bold"></button>
-              </ng-template>
-            </p-overlayPanel>
+                </ng-template>
+              </p-overlayPanel>
+            </div>
+            <p-confirmPopup></p-confirmPopup>
           </div>
-          <!-- Overlay -->
-
-
-          <p-confirmPopup></p-confirmPopup>
+          <div class="add-order__categoryName" *ngIf="selectedCategoryData && selectedCategoryData?._id">
+            <h4>{{ selectedCategoryData?.['categoryInfo']?.['name'] }}</h4>
+          </div>
         </div>
-        <div class="add-order__categoryName" *ngIf="selectedCategoryData && selectedCategoryData?._id">
-          <h4>{{ selectedCategoryData?.['categoryInfo']?.['name'] }}</h4>
-        </div>
-      </div>
-    </div>
-    <div class="add-order__products" [ngClass]="cartPositionVal === 'cartLeft' ? 'flex-row' : 'flex-row-reverse'">
-      <div class="add-order__products__cartDetails"
-           [ngClass]="cartPositionVal === 'cartLeft' ? 'cartBorderRight' : 'cartBorderLeft'">
         <div class="add-order__products__cartDetails__billDetails">
           <div *ngIf="showtableData" class="p-2">
             <div class="add-order__products__cartDetails__billDetails__orderheader">
-                            <span class="highlighted-font">Table no: {{ showSelectedTableData?.tableNo }}
-                              <p-button
-                                class="p-button-text font-bold ml-2"
-                                *ngIf="maestroInfoData?.posData?.isTableSwitchAllowed" (click)="switchTable()"
-                                label="Switch Table" [disabled]="showLoader"></p-button></span>
+              <span class="highlighted-font">Table no: {{ showSelectedTableData?.tableNo }}
+                <p-button class="p-button-text font-bold ml-2" *ngIf="maestroInfoData?.posData?.isTableSwitchAllowed"
+                  (click)="switchTable()" label="Switch Table" [disabled]="showLoader"></p-button></span>
               <span class="highlighted-font"
-                    *ngIf="cartOrderId?.orderId || showSelectedTableData?.aProperties?.orderData?.orderId">Order
-                                Id: {{
-                  showSelectedTableData?.aProperties?.orderData?.orderId ||
-                  cartOrderId?.orderId
+                *ngIf="cartOrderId?.orderId || showSelectedTableData?.aProperties?.orderData?.orderId">Order
+                Id: {{
+                showSelectedTableData?.aProperties?.orderData?.orderId ||
+                cartOrderId?.orderId
                 }}</span>
             </div>
           </div>
@@ -115,22 +91,20 @@
             <h4 *ngIf="cartOrderId?.orderId && !showtableData" class="ml-2">Order Id:
               {{ cartOrderId?.orderId }}</h4>
             <div *ngIf="!showtableData">
-              <div *ngIf="(cartLength$ |async ) > 0"
-                   class="card add-order__products__cartDetails__billDetails__table">
+              <div *ngIf="(cartLength$ |async ) > 0" class="card add-order__products__cartDetails__billDetails__table">
                 <div *ngFor="let item of (cartItems$ | async)" class="productItem">
                   <div class="productItem__imgContainer" *ngIf="SelectedViewValue === 'rich'">
-                    <img class="productItem__img"
-                         [ngClass]="{'gray-scale': item?.metaInfo?.outOfStockStatus}"
-                         [src]="item['imageURL']" height="168px" width="228px" alt="product image"
-                         onerror="src='https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg'"/>
+                    <img class="productItem__img" [ngClass]="{'gray-scale': item?.metaInfo?.outOfStockStatus}"
+                      [src]="item['imageURL']" height="168px" width="228px" alt="product image"
+                      onerror="src='https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg'" />
                   </div>
                   <div class="productItem__info">
                     <div class="productItem__info__name">{{ item['metaInfo']['itemName'] }}</div>
                     <div class="productItem__info__price mt-1">₹
                       {{
-                        ((item['qty']) * (SelectBtnValue ?
-                          (item?.['metaInfo']?.['prices']?.[SelectBtnValue] ||
-                            item?.['metaInfo']?.['price']) : item?.['metaInfo']?.['price'])).toFixed(2)
+                      ((item['qty']) * (SelectBtnValue ?
+                      (item?.['metaInfo']?.['prices']?.[SelectBtnValue] ||
+                      item?.['metaInfo']?.['price']) : item?.['metaInfo']?.['price'])).toFixed(2)
                       }}
                     </div>
                   </div>
@@ -140,60 +114,11 @@
                       <span>{{ item['qty'] }}</span>
                       <i (click)="incrementCartQty(item)" class="pi pi-plus inc-btn"></i>
                     </div>
-                    <div class="productItem__info__remove"
-                         (click)="removeCartItem(item['productInfo']['_id'])"><i
-                      class="pi pi-trash"></i></div>
+                    <div class="productItem__info__remove" (click)="removeCartItem(item['productInfo']['_id'])"><i
+                        class="pi pi-trash"></i></div>
                   </div>
                 </div>
               </div>
-              <!-- <div *ngIf="(cartLength$ |async ) > 0 && SelectedViewValue === 'simple'"
-                   class="card add-order__products__cartDetails__billDetails__table">
-                <p-table [columns]="cols" [value]="(cartItems$ | async)" class="productTable">
-                  <ng-template pTemplate="header" let-columns>
-                    <tr>
-                      <th *ngFor="let col of columns">
-                        {{ col.header }}
-                      </th>
-                    </tr>
-                  </ng-template>
-                  <ng-template pTemplate="body" let-item let-columns="columns">
-                    <tr>
-                      <td class="item-name">{{ item['metaInfo']['itemName'] }}</td>
-                      <td>
-                        <div class="btn-container"
-                             [ngStyle]="{'cursor': !item?.qty ? 'pointer' : ''}"
-                             (click)=" $event.stopPropagation()">
-                          <i *ngIf="!item?.metaInfo?.outOfStockStatus && item.qty"
-                             (click)="decrementCartQty(item)"
-                             class="pi pi-minus dec-btn"></i>
-                          <p [ngClass]="{'grayed-out': item?.metaInfo?.outOfStockStatus,'extra-padded':!item.qty}"
-                             class="qty">{{
-                              item.qty ? item.qty :
-                                'Add'
-                            }}</p>
-                          <i *ngIf="!item?.metaInfo?.outOfStockStatus && item.qty"
-                             (click)="incrementCartQty(item)" class="pi pi-plus inc-btn"></i>
-                        </div>
-                      </td>
-                      <td>₹
-                        {{
-                          ((item['qty']) * (SelectBtnValue ?
-                            (item?.['metaInfo']?.['prices']?.[SelectBtnValue] ||
-                              item?.['metaInfo']?.['price'])
-                            : item?.['metaInfo']?.['price'])).toFixed(2)
-                        }}
-                      </td>
-                      <td>
-                        <div class="productItem__info__remove"
-                             (click)="removeCartItem(item['productInfo']['_id'])">
-                          <i class="pi pi-trash">
-                          </i>
-                        </div>
-                      </td>
-                    </tr>
-                  </ng-template>
-                </p-table>
-              </div> -->
             </div>
             <div *ngIf="!isInKitchenItems">
               <ng-container *ngTemplateOutlet="manageTableItems"></ng-container>
@@ -209,15 +134,6 @@
                       </div>
 
                       <span class="font-bold">{{ i.items.length }} Items</span>
-                      <!-- <span
-                          class="font-bold">{{dateFormatter.getFormattedTimeSlotForSingleTime(i.updated)}}</span> -->
-
-                      <!-- <div class="action-icons">
-        <i [ngClass]="{
-          'disabled':tableCartItems?.length,
-          'enabled':!tableCartItems?.length
-          }" class="pi pi-pencil" (click)="editInTableItems(i)"></i>
-      </div> -->
                     </div>
                   </ng-template>
                   <div *ngIf="isInKitchenItems && (selectedInKitchenProdcut?.kId===i?.kId)">
@@ -226,23 +142,21 @@
 
 
                   <div *ngIf="(selectedInKitchenProdcut?.kId!==i?.kId) &&  (SelectedViewValue === 'rich')"
-                       class="card add-order__products__cartDetails__billDetails__table">
+                    class="card add-order__products__cartDetails__billDetails__table">
                     <div *ngFor="let item of i.items" class="productItem">
                       <div class="productItem__imgContainer">
-                        <img class="productItem__img"
-                             [ngClass]="{'gray-scale': item?.metaInfo?.outOfStockStatus}"
-                             [src]="item?.['imageUrl']" height="168px" width="228px"
-                             alt="product image"
-                             onerror="src='https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg'"/>
+                        <img class="productItem__img" [ngClass]="{'gray-scale': item?.metaInfo?.outOfStockStatus}"
+                          [src]="item?.['imageUrl']" height="168px" width="228px" alt="product image"
+                          onerror="src='https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg'" />
                       </div>
                       <div class="productItem__info">
                         <div class="productItem__info__name">{{
-                            item?.name
+                          item?.name
                           }}&nbsp;x&nbsp;{{ item?.quantity }}
                         </div>
                         <div class="productItem__info__price mt-1">₹{{
-                            (item['quantity'] *
-                              item?.price).toFixed(2)
+                          (item['quantity'] *
+                          item?.price).toFixed(2)
                           }}
                         </div>
                       </div>
@@ -250,21 +164,20 @@
                   </div>
                   <div *ngIf="(selectedInKitchenProdcut?.kId!==i?.kId) && (SelectedViewValue === 'simple')">
                     <ng-container *ngFor="let item of i.items; let id = idx"
-                                  class="card add-order__products__cartDetails__billDetails__table">
+                      class="card add-order__products__cartDetails__billDetails__table">
                       <div style="width: 80%; display: flex; justify-content: space-between;">
-                                                <span
-                                                  class="font-bold item-name">{{ item?.name }}&nbsp;x&nbsp;{{ item.quantity }}</span>
+                        <span class="font-bold item-name">{{ item?.name }}&nbsp;x&nbsp;{{ item.quantity }}</span>
                         <span class="font-bold ml-2">₹{{
-                            (item['quantity'] *
-                              item?.price).toFixed(2)
+                          (item['quantity'] *
+                          item?.price).toFixed(2)
                           }}</span>
                       </div>
                     </ng-container>
                   </div>
                   <div class="kitchen-edit-btn"
-                       *ngIf="(selectedInKitchenProdcut?.kId!==i?.kId) && maestroInfoData?.posData?.updateKitchenItems">
-                    <p-button *ngIf="i?.items?.length" [disabled]="tableCartItems?.length"
-                              label="Edit" (click)="editInTableItems(i)"></p-button>
+                    *ngIf="(selectedInKitchenProdcut?.kId!==i?.kId) && maestroInfoData?.posData?.updateKitchenItems">
+                    <p-button *ngIf="i?.items?.length" [disabled]="tableCartItems?.length" label="Edit"
+                      (click)="editInTableItems(i)"></p-button>
                   </div>
                 </p-accordionTab>
               </ng-container>
@@ -273,17 +186,15 @@
           <div style="padding:15px" class="cartContainer">
             <div *ngIf="((cartLength$ |async ) > 0 || subOrderData?.length>0) && !showTaxBreakup">
               <app-cart-card [tableCartItems]="tableCartItems" (checkoutCartEmitter)="checkoutCart()"
-                             [showCheckoutButton]="true" [selectedDineType]="SelectBtnValue"
-                             [subOrderData]="subOrderData" [cartOrderId]="cartOrderId"
-                             (setOverlayPanelItemEmitter)="setSelectedCartItem($event)"
-                             (removeItemFromCart)="removeCartItem($event)"
-                             (emitDiscardOrder)="currentOrderPaid = false;closeAddOrderModal(true);showwallpaper = true;isReloadRequiredMemo()"
-                             (resetCartEmitter)="resetCartValues(true); !cartOrderId?._id ? showwallpaper= true:''"
-                             style="width: 100%;" *ngIf="(cartLength$ |async ) > 0 || subOrderData?.length>0"
-                             [numItems]="(cartLength$|async)" [cartItems]="(cartItems$|async)"></app-cart-card>
+                [showCheckoutButton]="true" [selectedDineType]="SelectBtnValue" [subOrderData]="subOrderData"
+                [cartOrderId]="cartOrderId" (setOverlayPanelItemEmitter)="setSelectedCartItem($event)"
+                (removeItemFromCart)="removeCartItem($event)"
+                (emitDiscardOrder)="currentOrderPaid = false;closeAddOrderModal(true);showwallpaper = true;isReloadRequiredMemo()"
+                (resetCartEmitter)="resetCartValues(true); !cartOrderId?._id ? showwallpaper= true:''"
+                style="width: 100%;" *ngIf="(cartLength$ |async ) > 0 || subOrderData?.length>0"
+                [numItems]="(cartLength$|async)" [cartItems]="(cartItems$|async)"></app-cart-card>
             </div>
-            <div class="bill-div"
-                 *ngIf="((cartLength$ |async ) > 0|| subOrderData?.length>0) && showTaxBreakup">
+            <div class="bill-div" *ngIf="((cartLength$ |async ) > 0|| subOrderData?.length>0) && showTaxBreakup">
               <div class="bill-val">
                 <p style="margin: 0px;">Subtotal</p>
                 <p style="margin: 0px;">{{ cartOrderId?.payment?.price?.items?.length }} items</p>
@@ -291,19 +202,18 @@
               </div>
               <div class="bill-val">
                 <p style="margin: 0px;">Tax</p>
-                <p *ngIf="getTotalTax() !== '0.00'"
-                   style="cursor: pointer; margin: 0px; color: #27c0b3;" (click)="toggleTaxDetails()">
+                <p *ngIf="getTotalTax() !== '0.00'" style="cursor: pointer; margin: 0px; color: #27c0b3;"
+                  (click)="toggleTaxDetails()">
                   {{
-                    showTaxDetails ?
-                      "Hide Details" : "View Details"
+                  showTaxDetails ?
+                  "Hide Details" : "View Details"
                   }}</p>
                 <p style="margin: 0px;">₹{{
-                    cartOrderId?.payment?.price?.items?.length > 0 ?
-                      getTotalTax() : '0.00'
+                  cartOrderId?.payment?.price?.items?.length > 0 ?
+                  getTotalTax() : '0.00'
                   }}</p>
               </div>
-              <div class="tax-info"
-                   *ngIf="showTaxDetails && cartOrderId?.payment?.price?.items?.length > 0">
+              <div class="tax-info" *ngIf="showTaxDetails && cartOrderId?.payment?.price?.items?.length > 0">
                 <p style="margin: 0px;" *ngFor="let item of cartTax">{{ item?.name }}
                   ₹{{ item?.amt?.toFixed(2) }}</p>
               </div>
@@ -314,43 +224,41 @@
               <div class="bill-val font-bold" style="font-size: 2rem">
                 <p style="margin: 0px;">Total</p>
                 <p style="margin: 0px;">₹{{
-                    cartOrderId?.payment?.price?.items?.length > 0 ?
-                      cartOrderId?.payment?.price?.total.toFixed(2) : '0.00'
+                  cartOrderId?.payment?.price?.items?.length > 0 ?
+                  cartOrderId?.payment?.price?.total.toFixed(2) : '0.00'
                   }}</p>
               </div>
               <div class="d-flex justify-content-between mt-2 paymentBtn">
                 <div>
                   <p-button styleClass="discard-btn"
-                            *ngIf="SelectBtnValue==='table' ? isAnyItemInKitchen(sentKitchendData$|async) : (cartOrderId?.orderId && !this.subOrderData?.length)"
-                            [disabled]="showLoader" (click)="confirm('discardBtn')" label="Discard"
-                            [raised]="true" severity="danger"></p-button>
+                    *ngIf="SelectBtnValue==='table' ? isAnyItemInKitchen(sentKitchendData$|async) : (cartOrderId?.orderId && !this.subOrderData?.length)"
+                    [disabled]="showLoader" (click)="confirm('discardBtn')" label="Discard" [raised]="true"
+                    severity="danger"></p-button>
 
                   <p-button
                     *ngIf="cartOrderId?.orderId && this.subOrderData?.length && this.SelectBtnValue === 'table' && maestroInfoData?.posData?.canReceivePayment && !isKitchenEmpty"
-                    class="discard-btn border-0" (click)="printOrderReceipt()"
-                    label="{{'app.pos.print'}}" [disabled]="showLoader"></p-button>
+                    class="discard-btn border-0" (click)="printOrderReceipt()" label="{{'app.pos.print' | translate}}"
+                    [disabled]="showLoader"></p-button>
                 </div>
-                <div class="d-flex payBtn" style="gap:10px">
-                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment"
-                            icon="pi pi-money-bill" label="CASH" class="p-button-text font-bold"
-                            (click)="paidByCash()"
-                            [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
-                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment"
-                            icon="pi pi-credit-card" label="CARD" class="p-button-text font-bold"
-                            (click)="paidByCash();showCardModal = true"
-                            [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
-                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-qrcode"
-                            label="QR" class="p-button-text font-bold" (click)="payOnline()"
-                            [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
+                <div class="payBtn">
+                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-money-bill" label="CASH"
+                    class="p-button-text font-bold" (click)="paidByCash()"
+                    [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
+                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-credit-card" label="CARD"
+                    class="p-button-text font-bold" (click)="paidByCash();showCardModal = true"
+                    [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
+                  <p-button *ngIf="maestroInfoData?.posData?.canReceivePayment" icon="pi pi-qrcode" label="QR"
+                    class="p-button-text font-bold" (click)="payOnline()"
+                    [disabled]="showLoader || (SelectBtnValue==='table' && isKitchenEmpty)"></p-button>
                 </div>
               </div>
             </div>
           </div>
           <div *ngIf="(cartLength$ |async ) === 0 && !subOrderData?.length && !tableCartItems?.length"
-               [ngClass]="{'emptyCart': (cartLength$ |async ) === 0}">
+            [ngClass]="{'emptyCart': (cartLength$ |async ) === 0}">
             <div>
               <p style="margin: 0px;font-size: 2rem"><i class="pi pi-shopping-cart mr-2"
-                                                        style="font-size: 2rem"></i>Empty</p>
+                  style="font-size: 2rem"></i>Empty</p>
             </div>
           </div>
         </div>
@@ -358,23 +266,22 @@
       <div class="add-order__products__productDetails">
         <div *ngIf="layoutt">
           <p-splitter [style]="{display:'flex',border:'none' }" layout={{layoutt}} [panelSizes]=panelSize
-                      [ngClass]="{'pSplitterGutter': catPositionVal === 'catBottom' }">
+            [ngClass]="{'pSplitterGutter': catPositionVal === 'catBottom' }">
             <ng-template pTemplate>
               <div *ngIf="catPositionVal === 'catLeft'">
                 <div class="add-order__products__productDetails__categories">
                   <div class="add-order__products__productDetails__categories__category">
                     <div *ngFor="let category of (allAvailableCategories$ | async); let idx = index"
-                         pTooltip="{{category?.['categoryInfo']?.['name']}}" tooltipPosition="bottom"
-                         (click)="getSelectedCategory(category['_id'], idx,category)">
+                      pTooltip="{{category?.['categoryInfo']?.['name']}}" tooltipPosition="bottom"
+                      (click)="getSelectedCategory(category['_id'], idx,category)">
                       <div class="cursor-pointer"
-                           [ngClass]="{'activeCat' :selectedCategoryData?._id && (category?._id !== selectedCategoryData?._id) , 'deActiveCat' : selectedCategoryData?._id && (category?._id === selectedCategoryData?._id) }">
+                        [ngClass]="{'activeCat' :selectedCategoryData?._id && (category?._id !== selectedCategoryData?._id) , 'deActiveCat' : selectedCategoryData?._id && (category?._id === selectedCategoryData?._id) }">
                         <div class="category-image" [ngStyle]="{
                                   'color':            categoryColors?.[idx]?.['text'] || 'white',
                                   'background-color': category?.['categoryInfo']?.['color'] || categoryColors?.[idx]?.['background'],
                                 }" [ngClass]="{'category-simple-mode': SelectedViewValue!=='rich'}">
-                          <img onerror="this.style.display='none'"
-                               *ngIf="generateRandomColor(idx)"
-                               [src]="category.imgURL || 'https://ik.imagekit.io/cskadlfbc/tr:w-300:h-300/dev/acc_64464df894f6a812a461aab7/things/asset_64492251320251320e0f21f9/displayImage/image/displayImage'"/>
+                          <img onerror="this.style.display='none'" *ngIf="generateRandomColor(idx)"
+                            [src]="category.imgURL || 'https://ik.imagekit.io/cskadlfbc/tr:w-300:h-300/dev/acc_64464df894f6a812a461aab7/things/asset_64492251320251320e0f21f9/displayImage/image/displayImage'" />
                         </div>
                       </div>
                       <p class="category-name cursor-pointer">
@@ -386,25 +293,23 @@
               <div *ngIf="catPositionVal !== 'catLeft'">
                 <div class="add-order__products__productDetails__products">
                   <div *ngIf="(allAvailableProducts$ | async) "
-                       [ngClass]="SelectedViewValue === 'rich' ? 'add-order__products__productDetails__products__products-container' : 'add-order__products__productDetails__products__products-container__simpleView'"
-                       class="add-order__products__productDetails__products__products-container">
-                    <app-order-card (emitTableData)="updateTableData($event)"
-                                    [showtableData]="showtableData" (emitOutOfStock)="outOfStockCheck($event)"
-                                    [currentBranch]="current_branch" [SelectedViewValue]="SelectedViewValue"
-                                    [kioskSettings]="kioskSettings" [selectedDineType]="SelectBtnValue"
-                                    [changeCartItems]="!isInKitchenItems"
-                                    (incrementQtyEmitter)="incrementCartQty($event)"
-                                    (decrementQtyEmitter)="decrementCartQty($event)"
-                                    (updateShowTaxBreakup)="updateShowTaxBreakup($event)"
-                                    *ngFor="let item of (allAvailableProducts$ | async)"
-                                    [item]="item"></app-order-card>
+                    [ngClass]="SelectedViewValue === 'rich' ? 'add-order__products__productDetails__products__products-container' : 'add-order__products__productDetails__products__products-container__simpleView'"
+                    class="add-order__products__productDetails__products__products-container">
+                    <app-order-card (emitTableData)="updateTableData($event)" [showtableData]="showtableData"
+                      (emitOutOfStock)="outOfStockCheck($event)" [currentBranch]="current_branch"
+                      [SelectedViewValue]="SelectedViewValue" [kioskSettings]="kioskSettings"
+                      [selectedDineType]="SelectBtnValue" [changeCartItems]="!isInKitchenItems"
+                      (incrementQtyEmitter)="incrementCartQty($event)" (decrementQtyEmitter)="decrementCartQty($event)"
+                      (updateShowTaxBreakup)="updateShowTaxBreakup($event)"
+                      *ngFor="let item of (allAvailableProducts$ | async) | productSearch:{searchedProduct,categoryIdStr}"
+                      [item]="item"></app-order-card>
                   </div>
                   <div *ngIf="((allAvailableProducts$ | async)).length === 0" class="noProductFound">
                     <div>
                       <p style="margin: 0px;font-size: 2rem" class="d-flex align-items-center"><i
-                        class="pi pi-times-circle mr-2" style="font-size: 2rem"></i>No
+                          class="pi pi-times-circle mr-2" style="font-size: 2rem"></i>No
                         Products <span *ngIf="selectedCategoryData">&nbsp;for {{
-                            selectedCategoryData['categoryInfo']['name']
+                          selectedCategoryData['categoryInfo']['name']
                           }}</span>
                       </p>
                     </div>
@@ -416,25 +321,22 @@
               <div *ngIf="catPositionVal === 'catLeft'">
                 <div class="add-order__products__productDetails__products">
                   <div *ngIf="(allAvailableProducts$ | async) "
-                       [ngClass]="SelectedViewValue === 'rich' ? 'add-order__products__productDetails__products__products-container' : 'add-order__products__productDetails__products__products-container__simpleView'"
-                       class="add-order__products__productDetails__products__products-container">
-                    <app-order-card (emitTableData)="updateTableData($event)"
-                                    [showtableData]="showtableData" (emitOutOfStock)="outOfStockCheck($event)"
-                                    [currentBranch]="current_branch" [SelectedViewValue]="SelectedViewValue"
-                                    [kioskSettings]="kioskSettings" [selectedDineType]="SelectBtnValue"
-                                    [changeCartItems]="!isInKitchenItems"
-                                    (incrementQtyEmitter)="incrementCartQty($event)"
-                                    (decrementQtyEmitter)="decrementCartQty($event)"
-                                    (updateShowTaxBreakup)="updateShowTaxBreakup($event)"
-                                    *ngFor="let item of (allAvailableProducts$ | async)"
-                                    [item]="item"></app-order-card>
+                    [ngClass]="SelectedViewValue === 'rich' ? 'add-order__products__productDetails__products__products-container' : 'add-order__products__productDetails__products__products-container__simpleView'"
+                    class="add-order__products__productDetails__products__products-container">
+                    <app-order-card (emitTableData)="updateTableData($event)" [showtableData]="showtableData"
+                      (emitOutOfStock)="outOfStockCheck($event)" [currentBranch]="current_branch"
+                      [SelectedViewValue]="SelectedViewValue" [kioskSettings]="kioskSettings"
+                      [selectedDineType]="SelectBtnValue" [changeCartItems]="!isInKitchenItems"
+                      (incrementQtyEmitter)="incrementCartQty($event)" (decrementQtyEmitter)="decrementCartQty($event)"
+                      (updateShowTaxBreakup)="updateShowTaxBreakup($event)"
+                      *ngFor="let item of (allAvailableProducts$ | async)" [item]="item"></app-order-card>
                   </div>
                   <div *ngIf="((allAvailableProducts$ | async))" class="noProductFound">
                     <div>
                       <p style="margin: 0px;font-size: 2rem" class="d-flex align-items-center"><i
-                        class="pi pi-times-circle mr-2" style="font-size: 2rem"></i>No
+                          class="pi pi-times-circle mr-2" style="font-size: 2rem"></i>No
                         Products <span *ngIf="selectedCategoryData">&nbsp;for {{
-                            selectedCategoryData['categoryInfo']['name']
+                          selectedCategoryData['categoryInfo']['name']
                           }}</span>
                       </p>
                     </div>
@@ -445,17 +347,16 @@
                 <div class="add-order__products__productDetails__categories">
                   <div class="add-order__products__productDetails__categories__category">
                     <div *ngFor="let category of (allAvailableCategories$ | async); let idx = index"
-                         pTooltip="{{category?.['categoryInfo']?.['name']}}" tooltipPosition="bottom"
-                         (click)="getSelectedCategory(category['_id'], idx,category)">
+                      pTooltip="{{category?.['categoryInfo']?.['name']}}" tooltipPosition="bottom"
+                      (click)="getSelectedCategory(category['_id'], idx,category)">
                       <div class="cursor-pointer"
-                           [ngClass]="{'activeCat' :selectedCategoryData?._id && (category?._id !== selectedCategoryData?._id) , 'deActiveCat' : selectedCategoryData?._id && (category?._id === selectedCategoryData?._id) }">
+                        [ngClass]="{'activeCat' :selectedCategoryData?._id && (category?._id !== selectedCategoryData?._id) , 'deActiveCat' : selectedCategoryData?._id && (category?._id === selectedCategoryData?._id) }">
                         <div class="category-image" [ngStyle]="{
                                                   'color':            categoryColors?.[idx]?.['text'] || 'white',
                                                   'background-color': category?.['categoryInfo']?.['color'] || categoryColors?.[idx]?.['background'],
                                                 }" [ngClass]="{'category-simple-mode': SelectedViewValue!=='rich'}">
-                          <img onerror="this.style.display='none'"
-                               *ngIf="generateRandomColor(idx)"
-                               [src]="category.imgURL || 'https://ik.imagekit.io/cskadlfbc/tr:w-300:h-300/dev/acc_64464df894f6a812a461aab7/things/asset_64492251320251320e0f21f9/displayImage/image/displayImage'"/>
+                          <img onerror="this.style.display='none'" *ngIf="generateRandomColor(idx)"
+                            [src]="category.imgURL || 'https://ik.imagekit.io/cskadlfbc/tr:w-300:h-300/dev/acc_64464df894f6a812a461aab7/things/asset_64492251320251320e0f21f9/displayImage/image/displayImage'" />
                         </div>
                       </div>
                       <p class="category-name cursor-pointer">
@@ -474,35 +375,31 @@
     <div *ngIf="showTransactionProof">
     </div>
     <div *ngIf="verificationDone.status=='success'">
-      <app-sok-print-modal [visible]="verificationDone.status=='success'"
-                           [orderId]="verificationDone.data.orderId" [orderNo]="verificationDone.data.orderNo"
-                           (resetVerification)="resetVerification()">
+      <app-sok-print-modal [visible]="verificationDone.status=='success'" [orderId]="verificationDone.data.orderId"
+        [orderNo]="verificationDone.data.orderNo" (resetVerification)="resetVerification()">
       </app-sok-print-modal>
     </div>
   </ng-container>
-  <!-- <div *ngIf="showLoader" class="loader-overlay">
-    <app-loader></app-loader>
-  </div> -->
-<!-- </p-dialog> -->
 </div>
 <p-dialog header="Select Order Type" [(visible)]="showwallpaper" [modal]="true" styleClass="order-type-select-dialog"
-          [baseZIndex]="1000" [draggable]="false" [resizable]="false" [closable]="false" class="table-order">
+  [baseZIndex]="1000" [draggable]="false" [resizable]="false" [closable]="false" class="table-order">
   <div *ngIf="showLoader" class="loader-overlay">
     <app-loader></app-loader>
   </div>
   <div class="selectTypeButton">
     <button *ngIf="kioskSettings?.posUISettings?.dineType?.table" pButton (click)="setDineType('table')"
-            label="{{'app.pos.table'}}" class="font-bold"></button>
-    <button *ngIf="kioskSettings?.posUISettings?.dineType?.dineIn" pButton label="{{'app.pos.dineIn' }}"
-            (click)="setDineType('dineIn')" class="font-bold"></button>
-    <button *ngIf="kioskSettings?.posUISettings?.dineType?.dineOut" pButton label="{{'app.pos.dineOut'}}"
-            (click)="setDineType('dineOut')" class="font-bold"></button>
+      label="{{'app.pos.table' | translate}}" class="font-bold"></button>
+    <button *ngIf="kioskSettings?.posUISettings?.dineType?.dineIn" pButton label="{{'app.pos.dineIn' | translate }}"
+      (click)="setDineType('dineIn')" class="font-bold"></button>
+    <button *ngIf="kioskSettings?.posUISettings?.dineType?.dineOut" pButton label="{{'app.pos.dineOut' | translate}}"
+      (click)="setDineType('dineOut')" class="font-bold"></button>
     <button *ngFor="let dineType of additionalDineTypes" pButton [label]="dineType?.label | titlecase"
-            (click)="setDineType(dineType?.value);selectedDineType=dineType" class="font-bold"></button>
+      (click)="setDineType(dineType?.value);selectedDineType=dineType" class="font-bold"></button>
     <div
       *ngIf="!additionalDineTypes?.length && !kioskSettings?.posUISettings?.dineType?.table && !kioskSettings?.posUISettings?.dineType?.dineIn && !kioskSettings?.posUISettings?.dineType?.dineOut">
       <div class="W100FL TAC">
-        <h3 class="asset-not-found"><span>&ldquo;</span>{{ 'app.pos.no-dineType-selected' }}<span>&rdquo;</span>
+        <h3 class="asset-not-found"><span>&ldquo;</span>{{ 'app.pos.no-dineType-selected' | translate
+          }}<span>&rdquo;</span>
         </h3>
         <button pButton label="Close" (click)="showAddOrdersModal=false;showwallpaper=false"></button>
       </div>
@@ -511,24 +408,23 @@
 </p-dialog>
 
 <p-dialog [(visible)]="showTableModal" [modal]="true" [style]="{width: '80vw', height: '80vh', zIndex: '1000'}"
-          [baseZIndex]="1000" [draggable]="false" [resizable]="false" class="table-order" (onHide)="switchDineType()">
+  [baseZIndex]="1000" [draggable]="false" [resizable]="false" class="table-order" (onHide)="switchDineType()">
   <ng-template pTemplate="header">
     <div style="display: flex; align-items: center; gap: 40px;">
-            <span style="margin-right: 10px; font-weight: 600;font-size:1.5rem">{{
-                isSwitchTable ? 'Switch table to' :
-                  'Table status'
-              }}</span>
+      <span style="margin-right: 10px; font-weight: 600;font-size:1.5rem">{{
+        isSwitchTable ? 'Switch table to' :
+        'Table status'
+        }}</span>
       <p-selectButton [unselectable]="true" (onChange)="getTablesWithFloorId()" [options]="maestroAreaData"
-                      [(ngModel)]="currentFloor" optionLabel="name" optionValue="_id">
+        [(ngModel)]="currentFloor" optionLabel="name" optionValue="_id">
       </p-selectButton>
     </div>
   </ng-template>
   <div *ngIf="currentFloor && occupiedTableData?.length" class="order-table">
-    <div *ngFor="let item of occupiedTableData"
-         (click)="isSwitchTable ? switchTableData(item) : onTableSelect(item)">
+    <div *ngFor="let item of occupiedTableData" (click)="isSwitchTable ? switchTableData(item) : onTableSelect(item)">
       <div class="order-table__container cursor-pointer"
-           [ngStyle]="{'background-color': getTableStatusBgColor(item?.aProperties?.status)}"
-           pTooltip="{{item.status}}" tooltipPosition="top">
+        [ngStyle]="{'background-color': getTableStatusBgColor(item?.aProperties?.status)}" pTooltip="{{item.status}}"
+        tooltipPosition="top">
         <span style="color:white">{{ item?.tableNo }}</span>
       </div>
     </div>
@@ -541,39 +437,36 @@
   </div>
 </p-dialog>
 <p-dialog header="Table No: {{selectedTableData?.tableNo}}" [(visible)]="showEditOrderOption" [modal]="true"
-          [style]="{zIndex: '1000'}" [baseZIndex]="1000" [draggable]="false" [resizable]="false" class="table-order">
+  [style]="{zIndex: '1000'}" [baseZIndex]="1000" [draggable]="false" [resizable]="false" class="table-order">
   <div class="d-flex align-items-center flex-column">
     <div style="font-weight:600;font-size:1.25rem" class="p-4">Status : {{ selectedTableData?.status | titlecase }}
     </div>
     <button pButton (click)="editOrBookOrder(selectedTableData)" class="mt-2">{{
-        selectedTableData?.status ===
-        'available' ? 'Book' : 'Edit'
+      selectedTableData?.status ===
+      'available' ? 'Book' : 'Edit'
       }}
     </button>
   </div>
 </p-dialog>
 
-<!-- <div *ngIf="showLoader" class="loader-overlay"></div> -->
-
 <div *ngIf="(cartItems$ | async) as cartData">
   <app-payment-gateway (emitModalsAreClosed)="closeCashModal()" (emitCashRecieved)="goToPrintReciept($event,cartData)"
-                       [modalProps]="displayPayementStatusModal" [orderId]="cartOrderId" [qrProps]="showQrScanner"
-                       (emitQrIsClosed)="closeQRModal()" [branchName]="current_branch" [showCashModal]="showCashModal"
-                       [showLinkModal]="showLinkModal" [showCardModal]="showCardModal"
-                       [showRefundModal]="showRefundModal"
-                       (emitLoader)="setLoader($event)" [selectedDineType]="SelectBtnValue"
-                       [TaxBreakupDetails]="TaxBreakupDetails"
-                       [cartItems]="(cartItems$ | async)">
+    [modalProps]="displayPayementStatusModal" [orderId]="cartOrderId" [qrProps]="showQrScanner"
+    (emitQrIsClosed)="closeQRModal()" [branchName]="current_branch" [showCashModal]="showCashModal"
+    [showLinkModal]="showLinkModal" [showCardModal]="showCardModal" [showRefundModal]="showRefundModal"
+    (emitLoader)="setLoader($event)" [selectedDineType]="SelectBtnValue" [TaxBreakupDetails]="TaxBreakupDetails"
+    [cartItems]="(cartItems$ | async)">
   </app-payment-gateway>
 </div>
 
 <p-dialog header="Reload Required" [modal]="true" [visible]="reloadAgainState"
-          [style]="{width: '35vw', height: '25vh', zIndex: '2000'}" [baseZIndex]="1000" [draggable]="false"
-          [resizable]="false" [closable]="false" class="table-order">
+  [style]="{width: '35vw', height: '25vh', zIndex: '2000'}" [baseZIndex]="1000" [draggable]="false" [resizable]="false"
+  [closable]="false" class="table-order">
   <div class="selectTypeButton">
     <div>
       <div class="W100FL TAC">
-        <h3 class="asset-not-found"><span>&ldquo;</span>{{ 'app.pos.new-changes-detected' }}<span>&rdquo;</span>
+        <h3 class="asset-not-found"><span>&ldquo;</span>{{ 'app.pos.new-changes-detected' | translate
+          }}<span>&rdquo;</span>
         </h3>
         <button pButton label="Reload" (click)="reloadApplication()"></button>
       </div>
@@ -591,88 +484,81 @@
     <p class="w-100 text-center font-bold" *ngIf="isInKitchenItems ? false : showWarningBorder">These Items Are Not
       Added !</p>
     <div [ngClass]="{'warning-border': isInKitchenItems ? false : showWarningBorder}"
-         *ngIf="(isInKitchenItems ? true : tableCartItems?.length)" class="table-data">
+      *ngIf="(isInKitchenItems ? true : tableCartItems?.length)" class="table-data">
       <p>{{ isInKitchenItems ? 'Kitchen Items' : 'New Items' }}</p>
       <div class="manage-cart-items">
-        <div *ngIf="SelectedViewValue === 'rich'"
-             class="card add-order__products__cartDetails__billDetails__table">
-          <div *ngFor="let item of (isInKitchenItems ? editInKitchenItems : tableCartItems)"
-               class="productItem">
+        <div *ngIf="SelectedViewValue === 'rich'" class="card add-order__products__cartDetails__billDetails__table">
+          <div *ngFor="let item of (isInKitchenItems ? editInKitchenItems : tableCartItems)" class="productItem">
             <div class="productItem__imgContainer">
               <img class="productItem__img"
-                   [ngClass]="{'gray-scale': isInKitchenItems ? false : item?.metaInfo?.outOfStockStatus}"
-                   [src]="isInKitchenItems ? item['imageUrl'] : item['imageURL']" height="168px"
-                   width="228px" alt="product image"
-                   onerror="src='https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg'"/>
+                [ngClass]="{'gray-scale': isInKitchenItems ? false : item?.metaInfo?.outOfStockStatus}"
+                [src]="isInKitchenItems ? item['imageUrl'] : item['imageURL']" height="168px" width="228px"
+                alt="product image"
+                onerror="src='https://livingstonbagel.com/wp-content/uploads/2016/11/food-placeholder.jpg'" />
             </div>
             <div class="productItem__info">
               <div class="productItem__info__name">{{
-                  isInKitchenItems ? item.name
-                    : item['metaInfo']['itemName']
+                isInKitchenItems ? item.name
+                : item['metaInfo']['itemName']
                 }}
               </div>
               <div class="productItem__info__price mt-1">₹
                 {{
-                  (isInKitchenItems ? (item.price * item['quantity']) :
-                    ((item['qty']) * (SelectBtnValue ? (item?.['metaInfo']?.['prices']?.[SelectBtnValue] ||
-                      item?.['metaInfo']?.['price']) : item?.['metaInfo']?.['price']))).toFixed(2)
+                (isInKitchenItems ? (item.price * item['quantity']) :
+                ((item['qty']) * (SelectBtnValue ? (item?.['metaInfo']?.['prices']?.[SelectBtnValue] ||
+                item?.['metaInfo']?.['price']) : item?.['metaInfo']?.['price']))).toFixed(2)
                 }}
               </div>
             </div>
             <div class="productItem__actionBtns">
-              <div *ngIf="isInKitchenItems ? true : !item?.metaInfo?.outOfStockStatus"
-                   class="btn-container">
-                <i [ngClass]="{'disabled-btn': !item?.['quantity']}"
-                   (click)="actionOnTableCartItems(item,'decrement')" class="pi pi-minus dec-btn"></i>
+              <div *ngIf="isInKitchenItems ? true : !item?.metaInfo?.outOfStockStatus" class="btn-container">
+                <i [ngClass]="{'disabled-btn': !item?.['quantity']}" (click)="actionOnTableCartItems(item,'decrement')"
+                  class="pi pi-minus dec-btn"></i>
                 <span>{{ isInKitchenItems ? item['quantity'] : item['qty'] }}</span>
                 <i [ngClass]="{'disabled-btn': item?.['quantity']===item?.['originalQty']}"
-                   (click)="actionOnTableCartItems(item,'increment')" class="pi pi-plus inc-btn"></i>
+                  (click)="actionOnTableCartItems(item,'increment')" class="pi pi-plus inc-btn"></i>
               </div>
               <div class="productItem__info__remove"
-                   (click)="isInKitchenItems ? removeInKitchenItem(item) : removeCartItem(item['productInfo']['_id'])">
+                (click)="isInKitchenItems ? removeInKitchenItem(item) : removeCartItem(item['productInfo']['_id'])">
                 <i class="pi pi-trash"></i>
               </div>
             </div>
           </div>
         </div>
-        <div *ngIf="SelectedViewValue === 'simple'"
-             class="card add-order__products__cartDetails__billDetails__table">
+        <div *ngIf="SelectedViewValue === 'simple'" class="card add-order__products__cartDetails__billDetails__table">
           <p-table [columns]="cols" [value]="(isInKitchenItems ? editInKitchenItems : tableCartItems)"
-                   class="productTable">
+            class="productTable">
             <ng-template pTemplate="body" let-item let-columns="columns">
               <tr>
                 <td class="item-name">{{ isInKitchenItems ? item.name : item['metaInfo']['itemName'] }}
                 </td>
                 <td>
-                  <div class="btn-container"
-                       [ngStyle]="{'cursor': (!item?.qty || !item.quantity) ? 'pointer' : ''}"
-                       (click)=" $event.stopPropagation();">
+                  <div class="btn-container" [ngStyle]="{'cursor': (!item?.qty || !item.quantity) ? 'pointer' : ''}"
+                    (click)=" $event.stopPropagation();">
                     <i [ngClass]="{'disabled-btn': !item?.['quantity']}"
-                       *ngIf="isInKitchenItems ? true : (!item?.metaInfo?.outOfStockStatus && item.qty)"
-                       (click)="actionOnTableCartItems(item,'decrement')"
-                       class="pi pi-minus dec-btn"></i>
+                      *ngIf="isInKitchenItems ? true : (!item?.metaInfo?.outOfStockStatus && item.qty)"
+                      (click)="actionOnTableCartItems(item,'decrement')" class="pi pi-minus dec-btn"></i>
                     <span
                       [ngClass]="{'grayed-out': item?.metaInfo?.outOfStockStatus,'extra-padded':(!item?.qty || !item.quantity)}"
                       class="qty">{{
-                        item.qty ? item.qty : item.quantity ? item.quantity : 0
+                      item.qty ? item.qty : item.quantity ? item.quantity : 0
                       }}</span>
                     <i [ngClass]="{'disabled-btn': item?.['quantity']===item?.['originalQty']}"
-                       *ngIf="isInKitchenItems ? true : (!item?.metaInfo?.outOfStockStatus && item.qty)"
-                       (click)="actionOnTableCartItems(item,'increment')"
-                       class="pi pi-plus inc-btn"></i>
+                      *ngIf="isInKitchenItems ? true : (!item?.metaInfo?.outOfStockStatus && item.qty)"
+                      (click)="actionOnTableCartItems(item,'increment')" class="pi pi-plus inc-btn"></i>
                   </div>
                 </td>
                 <td>₹
                   {{
-                    isInKitchenItems ? (item.price * item['quantity']) :
-                      ((item['qty']) * (SelectBtnValue ? (item?.['metaInfo']?.['prices']?.[SelectBtnValue]
-                        ||
-                        item?.['metaInfo']?.['price']) : item?.['metaInfo']?.['price']))
+                  isInKitchenItems ? (item.price * item['quantity']) :
+                  ((item['qty']) * (SelectBtnValue ? (item?.['metaInfo']?.['prices']?.[SelectBtnValue]
+                  ||
+                  item?.['metaInfo']?.['price']) : item?.['metaInfo']?.['price']))
                   }}
                 </td>
                 <td>
                   <div class="productItem__info__remove"
-                       (click)="isInKitchenItems ? removeInKitchenItem(item) : removeCartItem(item['productInfo']['_id'])">
+                    (click)="isInKitchenItems ? removeInKitchenItem(item) : removeCartItem(item['productInfo']['_id'])">
                     <i class="pi pi-trash">
                     </i>
                   </div>
@@ -686,19 +572,18 @@
 
         <div *ngIf="isInKitchenItems && !editInKitchenItems?.length">No Items</div>
 
-        <p-button styleClass="discard-btn" *ngIf="isInKitchenItems" (click)="cancelKitchenItemsMod()"
-                  label="Cancel" [raised]="true" severity="danger"></p-button>
+        <p-button styleClass="discard-btn" *ngIf="isInKitchenItems" (click)="cancelKitchenItemsMod()" label="Cancel"
+          [raised]="true" severity="danger"></p-button>
         <p-button *ngIf="isInKitchenItems" (click)="actionOnTableCartItems(null,'remove-from-kitchen')"
-                  [disabled]="!changedInKitchenItems?.products?.remove?.length">
+          [disabled]="!changedInKitchenItems?.products?.remove?.length">
           Update
         </p-button>
 
         <p-button
           [ngClass]="{'hide-class' : (isInKitchenItems ? true : subOrderData?.length) ? (isInKitchenItems ? editInKitchenItems : tableCartItems)?.length===0: false}"
-          styleClass="discard-btn" *ngIf="!isInKitchenItems" (click)="clearCart()" label="Clear cart"
-          [raised]="true" severity="danger"></p-button>
-        <p-button *ngIf="!isInKitchenItems" (click)="actionOnTableCartItems(null,'add-to-kitchen')"
-                  class="sbmt-btn">
+          styleClass="discard-btn" *ngIf="!isInKitchenItems" (click)="clearCart()" label="Clear cart" [raised]="true"
+          severity="danger"></p-button>
+        <p-button *ngIf="!isInKitchenItems" (click)="actionOnTableCartItems(null,'add-to-kitchen')" class="sbmt-btn">
           Send To Kitchen For Table
           &nbsp;
           <div *ngIf="!isInKitchenItems" class="color-changing-text">{{ selectedTableData?.tableNo }}</div>
@@ -709,18 +594,16 @@
 </ng-template>
 
 <p-dialog [header]="salesModal.header" [(visible)]="salesModal.displayModal" [modal]="true" [style]="{width: '95vw'}"
-          [baseZIndex]="10000" (onHide)="resetModalData()" [draggable]="false" [resizable]="false"
-          class="totalSalesDialog">
+  [baseZIndex]="10000" (onHide)="resetModalData()" [draggable]="false" [resizable]="false" class="totalSalesDialog">
 
-  <!-- table for excel sheet data -->
 
   <p-table [value]="salesModal.tabledata" styleClass="p-datatable" scrollHeight="65vh" dataKey="_id">
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th *ngFor="let col of getTableColumnheader()">
-                    <span>
-                        {{ col.field }}
-                    </span>
+          <span>
+            {{ col.field }}
+          </span>
           <ng-template>
             {{ col.header }}
           </ng-template>
@@ -732,27 +615,26 @@
     <ng-template pTemplate="body" let-tableData let-columns="columns">
       <tr>
         <td *ngFor="let col of getTableColumnheader()">
-                    <span>
-                        <span *ngIf="(col['type']!=='date') && (col['type']!=='number') ">
-                            {{ tableData[col?.key] ? tableData[col?.key] : '-' }}
-                        </span>
+          <span>
+            <span *ngIf="(col['type']!=='date') && (col['type']!=='number') ">
+              {{ tableData[col?.key] ? tableData[col?.key] : '-' }}
+            </span>
 
-                        <span *ngIf="(col['type']=='date')">
-                            {{ tableData[col?.key] ? buildExpectedDeliveryDateTime(tableData[col?.key]) : '-' }}
+            <span *ngIf="(col['type']=='date')">
+              {{ tableData[col?.key] ? buildExpectedDeliveryDateTime(tableData[col?.key]) : '-' }}
 
-                        </span>
+            </span>
 
-                        <span *ngIf="(col['type']=='number')">
-                            {{ tableData[col?.key] ? tableData?.[col?.key]?.toFixed(2) : '-' }}
-                        </span>
-                    </span>
+            <span *ngIf="(col['type']=='number')">
+              {{ tableData[col?.key] ? tableData?.[col?.key]?.toFixed(2) : '-' }}
+            </span>
+          </span>
 
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="footer">
 
-      <!-- no data available -->
       <div *ngIf="salesModal.tabledata.length===0 && !salesModal.appLoader">
         <div class="W100FL TAC">
           <h3 class="asset-not-found"><span>&ldquo;</span>{{ 'sys.no-data-available' }}<span>&rdquo;</span></h3>
@@ -776,10 +658,9 @@
   <ng-template pTemplate="footer" style="margin-top: -46px">
 
     <p-paginator *ngIf="salesModal.pagination.totalNoOfRecords > 0 && !(salesModal.tabledata.length===0)"
-                 [rows]="salesModal.pagination.recordsPerPage" [totalRecords]="salesModal.pagination.totalNoOfRecords"
-                 [rowsPerPageOptions]="[20,30,40]" (onPageChange)="salesModalPaginate($event)"
-                 [showJumpToPageDropdown]="true" [showPageLinks]="true"
-                 currentPageReportTemplate="{first} to {last} of {totalRecords}">
+      [rows]="salesModal.pagination.recordsPerPage" [totalRecords]="salesModal.pagination.totalNoOfRecords"
+      [rowsPerPageOptions]="[20,30,40]" (onPageChange)="salesModalPaginate($event)" [showJumpToPageDropdown]="true"
+      [showPageLinks]="true" currentPageReportTemplate="{first} to {last} of {totalRecords}">
     </p-paginator>
 
   </ng-template>
@@ -789,6 +670,3 @@
   </div>
 
 </p-dialog>
-<!-- <div *ngIf="(isInternetConnected$ | async) && showAddOrdersModal" class="noInternet">
-    <p><i class="pi pi-wifi"></i>OOPS...No Internet! Check Your Internet Connection.</p>
-</div> -->

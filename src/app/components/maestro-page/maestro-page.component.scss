@@ -72,7 +72,7 @@
     &__products {
         display: flex;
         // flex-direction: row-reverse;
-        height: 85vh;
+        height: 92vh;
         width: 100%;
 
         &__cartDetails {
@@ -84,7 +84,7 @@
                 display: flex;
                 justify-content: flex-end;
                 padding: 10px;
-                width: 30%;
+                // width: 30%;
                 margin-top: 0.5vh;
 
                 // border-left: 3px solid var(--primary-color);
@@ -218,6 +218,13 @@
                         flex-direction: column;
                         align-items: flex-end;
                     }
+                    .paymentBtn{
+                        display: flex;
+                        .payBtn{
+                            display: flex;
+                            gap: 10px;
+                        }
+                    }
                 }
 
                 &__checkoutBtns {
@@ -347,28 +354,7 @@
     }
 }
 
-@media (max-width: 1000px) {
-    .table-action-btn-container {
-        justify-content: flex-start !important;
-        gap: 8px;
-    }
-}
 
-@media (max-width: 900px) {
-    :host ::ng-deep {
-        .order-type-select-dialog {
-            width: 90vw;
-        }
-    }
-}
-
-@media (max-width: 500px) {
-    :host ::ng-deep {
-        .order-type-select-dialog {
-            height: 90vh;
-        }
-    }
-}
 
 :host ::ng-deep .p-datatable>.p-datatable-wrapper {
     // min-height: 68vh;
@@ -430,7 +416,7 @@
 
 :host ::ng-deep {
     .p-splitter {
-        height: 85vh;
+        height: 92vh;
     }
 
     .add-order {
@@ -786,133 +772,6 @@
     z-index: 10000;
 }
 
-@media (min-width:740px) and (max-width:1000px) {
-    .add-order {
-        &__products {
-            grid-template-columns: 40% 1fr;
-
-            &__cartDetails {
-                width: 40% !important;
-
-                &__selectBtn {
-                    width: 40%;
-                }
-            }
-
-            &__cartDetails {
-                &__billDetails {
-                    .bill-div {
-                        .bill-val {
-                            font-size: 1rem !important;
-                        }
-                    }
-                }
-            }
-        }
-
-        .search-container {
-            width: 8rem;
-        }
-    }
-}
-
-:host ::ng-deep {
-    @media (min-width:740px) and (max-width:1430px) {
-        .paymentBtn .p-button-text .p-button {
-            width: auto !important;
-            height: 2.5rem;
-
-            .p-button-label {
-                display: none;
-            }
-
-            .p-button-icon-left {
-                margin: 0 !important;
-            }
-        }
-
-        .print-reciept-page {
-
-            .print-reciept-btn-alignmnent,
-            .email-reciept {
-                width: 65% !important;
-            }
-        }
-
-        .cart-card-container .cart-card-btns-container .cart-card-btns .p-button {
-            margin: 3px;
-        }
-
-        .cartContainer {
-            padding: 0 15px 15px 0 !important;
-        }
-    }
-
-    @media (min-height:680px) and (max-height:900px) {
-        .add-order__products__cartDetails__billDetails {
-            height: 82vh;
-        }
-
-        .p-splitter {
-            height: 82vh;
-        }
-
-        .add-order {
-            .header-flex {
-                gap: 15px;
-
-                .left-header-actions {
-                    gap: 7px;
-                }
-
-                .right-header-actions {
-                    gap: 7px;
-
-                    div {
-                        gap: 4px;
-
-                        span {
-                            font-weight: 200;
-                        }
-                    }
-                }
-            }
-        }
-
-        .add-order {
-            .p-dialog {
-                padding: 7px 0px;
-            }
-
-            .p-dialog .p-dialog-header {
-                color: var(--primary-color)
-            }
-
-            .p-dialog-mask {
-                height: auto !important;
-                display: block !important;
-            }
-
-            .p-component-overlay {
-                height: auto !important;
-                width: auto !important;
-            }
-
-            .p-selectbutton .p-button {
-                white-space: nowrap;
-                font-weight: 400;
-                display: flex;
-                justify-content: center;
-                font-weight: 600;
-            }
-
-            .add-order__products__cartDetails__selectBtn .p-selectbutton .p-button {
-                width: 8rem;
-                font-weight: 600;
-            }
-        }
-    }
-}
 
 ::ng-deep {
     p-dialog .p-dialog-content {
@@ -1079,6 +938,12 @@
     }
 }
 
+.version-number {
+    width: 100%;
+    text-align: end;
+    color: rgb(130, 130, 130);
+}
+
 .table-items-header {
     .action-icons {
         display: flex;
@@ -1143,3 +1008,171 @@
         }
     }
 }
+
+// < ---------- media Queries ------------>
+@media (max-width: 500px) {
+   
+}
+@media (min-width:501px) and (max-width:740px){
+    .add-order__products__cartDetails{
+      width: 40% !important;
+      &__selectBtn{
+        width: 100% !important;
+        border: none !important;
+      }
+    }
+    .cartBorderLeft{
+      justify-content: flex-end !important;
+    }
+    .cartBorderRight{
+      justify-content: flex-start !important;
+    }
+  }
+@media (max-width: 1000px) {
+    .table-action-btn-container {
+        justify-content: flex-start !important;
+        gap: 8px;
+    }
+}
+
+@media (max-width: 900px) {
+    :host ::ng-deep {
+        .order-type-select-dialog {
+            width: 90vw;
+        }
+    }
+}
+@media (min-width:740px) and (max-width:1000px) {
+    .add-order {
+        &__products {
+            grid-template-columns: 40% 1fr;
+
+            &__cartDetails {
+                width: 40% !important;
+
+                &__selectBtn {
+                    width: 40%;
+                }
+            }
+
+            &__cartDetails {
+                &__billDetails {
+                    .bill-div {
+                        .bill-val {
+                            font-size: 1rem !important;
+                        }
+                    }
+                }
+            }
+        }
+        .search-container {
+            width: 8rem;
+        }
+    }
+}
+
+:host ::ng-deep {
+    @media (max-width: 500px) {
+      .order-type-select-dialog {
+          height: 90vh;
+      }
+    }
+    @media (min-width:740px) and (max-width:1430px) {
+        .paymentBtn .p-button-text .p-button {
+            width: auto !important;
+            height: 2.5rem;
+
+            .p-button-label {
+                display: none;
+            }
+
+            .p-button-icon-left {
+                margin: 0 !important;
+            }
+        }
+
+        .print-reciept-page {
+
+            .print-reciept-btn-alignmnent,
+            .email-reciept {
+                width: 65% !important;
+            }
+        }
+
+        .cart-card-container .cart-card-btns-container .cart-card-btns .p-button {
+            margin: 3px;
+        }
+
+        .cartContainer {
+            padding: 0 15px 15px 0 !important;
+        }
+    }
+
+    @media (min-height:680px) and (max-height:900px) {
+        .add-order__products__cartDetails__billDetails {
+            height: 82vh;
+        }
+
+        .p-splitter {
+            height: 82vh;
+        }
+
+        .add-order {
+            .header-flex {
+                gap: 15px;
+
+                .left-header-actions {
+                    gap: 7px;
+                }
+
+                .right-header-actions {
+                    gap: 7px;
+
+                    div {
+                        gap: 4px;
+
+                        span {
+                            font-weight: 200;
+                        }
+                    }
+                }
+            }
+        }
+
+        .add-order {
+            .p-dialog {
+                padding: 7px 0px;
+            }
+
+            .p-dialog .p-dialog-header {
+                color: var(--primary-color)
+            }
+
+            .p-dialog-mask {
+                height: auto !important;
+                display: block !important;
+            }
+
+            .p-component-overlay {
+                height: auto !important;
+                width: auto !important;
+            }
+
+            .p-selectbutton .p-button {
+                white-space: nowrap;
+                font-weight: 400;
+                display: flex;
+                justify-content: center;
+                font-weight: 600;
+            }
+
+            .add-order__products__cartDetails__selectBtn .p-selectbutton .p-button {
+                width: 8rem;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+
+
