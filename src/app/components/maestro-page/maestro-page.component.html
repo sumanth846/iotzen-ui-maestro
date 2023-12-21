@@ -1,4 +1,5 @@
 <div class="add-order p-2">
+  <p class="version-number">v-{{versionNumber}}</p>
   <div class="header-flex" style="width:98%">
     <div class="right-header-actions" *ngIf="this.kioskSettings?.posUISettings?.layout?.isButtonVisibile">
       <div>
@@ -49,7 +50,8 @@
               optionValue="value">
               <ng-template let-item pTemplate>
                 <span (click)="checkSelectedButton(item.value)"
-                  [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label }}</span>
+                  [ngClass]="{'dine-active-p-select-button': SelectBtnValue===item.value}">{{ item?.label |
+                  translate}}</span>
               </ng-template>
             </p-selectButton>
             <div *ngIf="additionalDineTypes?.length && kioskSettings?.posUISettings?.dineType?.['otherServices']">
@@ -59,8 +61,8 @@
                 [label]="selectedDineType ? (selectedDineType.label) : 'Other'"></p-button>
               <p-overlayPanel #op [style]="{ width: '350px' }" [showCloseIcon]="true" styleClass="dine-type-panel">
                 <ng-template pTemplate="content">
-                  <button *ngFor="let dineType of additionalDineTypes" pButton [label]="dineType?.label | titlecase"
-                    [ngClass]="{
+                  <button *ngFor="let dineType of additionalDineTypes" pButton
+                    [label]="dineType?.label | translate | titlecase" [ngClass]="{
                     'services-button-active': selectedDineType?.label===dineType?.label,
                     'services-button-inactive': selectedDineType?.label!==dineType?.label
                     }" (click)="checkSelectedButton(dineType.value,dineType);op.hide()" class="font-bold"></button>

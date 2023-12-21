@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {of, from, EMPTY, forkJoin} from 'rxjs';
-import {switchMap, map, catchError, tap, withLatestFrom, mergeMap} from 'rxjs/operators';
-import {Store,} from '@ngrx/store';
-import {AppState} from '../app.state';
-import {KioskActions} from '.';
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of, from, EMPTY, forkJoin } from 'rxjs';
+import { switchMap, map, catchError, tap, withLatestFrom, mergeMap } from 'rxjs/operators';
+import { Store, } from '@ngrx/store';
+import { AppState } from '../app.state';
+import { KioskActions } from '.';
 import {
   ICategoryData,
   IKioskCategory,
@@ -14,14 +14,14 @@ import {
   GatewayList,
   IKisoskSettingsMetaData
 } from 'src/app/interface/maestro-interface';
-import {AssetGroupService} from 'src/app/services/asset.service.group';
-import {AssetService} from 'src/app/services/asset.service';
-import {AssetConfigService} from 'src/app/services/asset-config-service';
-import {sequencedCategories, setCategoryImage} from './kiosk.reducer.helper'
+import { AssetGroupService } from 'src/app/services/asset.service.group';
+import { AssetService } from 'src/app/services/asset.service';
+import { AssetConfigService } from 'src/app/services/asset-config-service';
+import { sequencedCategories, setCategoryImage } from './kiosk.reducer.helper'
 // import { AssetsActions } from '../Assets';
 // import { getAccountFromLoginResponse } from '../Login/login.selector';
-import {getAllKioskSettingsMetaData, getKioskSettings} from './kiosk.selector';
-import {KioskStoreService} from 'src/app/services/kiosk.store.service';
+import { getAllKioskSettingsMetaData, getKioskSettings } from './kiosk.selector';
+import { KioskStoreService } from 'src/app/services/kiosk.store.service';
 
 
 @Injectable()
@@ -43,9 +43,9 @@ export class KioskEffects {
       switchMap(() => {
         return from(this.API.getStoreList()).pipe(
           map((res) => {
-            return KioskActions.loadBranchListSuccess({branchList: res})
+            return KioskActions.loadBranchListSuccess({ branchList: res })
           }),
-          catchError((error) => of(KioskActions.loadBranchListFailure({err: error})))
+          catchError((error) => of(KioskActions.loadBranchListFailure({ err: error })))
         )
       })
     )
@@ -57,9 +57,9 @@ export class KioskEffects {
       switchMap((action) => {
         return from(this.API.getAllProductAssetsInKiosk(action.skip, action.limit, action.searchedText)).pipe(
           map((res) => {
-            return KioskActions.loadProductListSuccess({allProducts: res})
+            return KioskActions.loadProductListSuccess({ allProducts: res })
           }),
-          catchError((error) => of(KioskActions.loadProductListFailure({err: error})))
+          catchError((error) => of(KioskActions.loadProductListFailure({ err: error })))
         )
       })
     )
@@ -71,9 +71,9 @@ export class KioskEffects {
       switchMap((action) => {
         return from(this.API.getAllProductAssetsCountInKiosk(action.searchedText)).pipe(
           map((res) => {
-            return KioskActions.loadProductsCountSuccess({allProductsCount: res})
+            return KioskActions.loadProductsCountSuccess({ allProductsCount: res })
           }),
-          catchError((error) => of(KioskActions.loadProductsCountFailure({err: error})))
+          catchError((error) => of(KioskActions.loadProductsCountFailure({ err: error })))
         )
       })
     )
@@ -85,9 +85,9 @@ export class KioskEffects {
       switchMap(() => {
         return from(this.API.getAllOrders()).pipe(
           map((res) => {
-            return KioskActions.loadOrderListSuccess({allOrders: res})
+            return KioskActions.loadOrderListSuccess({ allOrders: res })
           }),
-          catchError((error) => of(KioskActions.loadOrderListFailure({err: error})))
+          catchError((error) => of(KioskActions.loadOrderListFailure({ err: error })))
         )
       })
     )
@@ -100,17 +100,17 @@ export class KioskEffects {
         if (action?.filters) {
           return from(this.API.getProductCountByStore(action.storeId, action.filters, action.isCategory, (action?.searchQuery ? action.searchQuery : ''))).pipe(
             map((res) => {
-              return KioskActions.loadProductCountByStoreSuccess({productCountByStore: res})
+              return KioskActions.loadProductCountByStoreSuccess({ productCountByStore: res })
             }),
-            catchError((error) => of(KioskActions.loadProductCountByStoreFailure({err: error})))
+            catchError((error) => of(KioskActions.loadProductCountByStoreFailure({ err: error })))
           )
         } else {
           let search = action.searchQuery ? action.searchQuery : ''
           return from(this.API.getProductCountByStore(action.storeId, action.filters, action.isCategory, search)).pipe(
             map((res) => {
-              return KioskActions.loadProductCountByStoreSuccess({productCountByStore: res})
+              return KioskActions.loadProductCountByStoreSuccess({ productCountByStore: res })
             }),
-            catchError((error) => of(KioskActions.loadProductCountByStoreFailure({err: error})))
+            catchError((error) => of(KioskActions.loadProductCountByStoreFailure({ err: error })))
           )
         }
       })
@@ -123,9 +123,9 @@ export class KioskEffects {
       switchMap((action) => {
         return from(this.API.getUnlinkedProductCountByStore(action.storeId, action.searchQuery)).pipe(
           map((res) => {
-            return KioskActions.loadUnlinkedProductCountByStoreSuccess({unlinkedProductCountByStore: res})
+            return KioskActions.loadUnlinkedProductCountByStoreSuccess({ unlinkedProductCountByStore: res })
           }),
-          catchError((error) => of(KioskActions.loadUnlinkedProductCountByStoreFailure({err: error})))
+          catchError((error) => of(KioskActions.loadUnlinkedProductCountByStoreFailure({ err: error })))
         )
       })
     )
@@ -137,7 +137,7 @@ export class KioskEffects {
       switchMap(() => {
         return from(this.API.getMaestroAreas()).pipe(
           map((res) => {
-            return KioskActions.getMaestroAreasSuccess({areas: res})
+            return KioskActions.getMaestroAreasSuccess({ areas: res })
           })
         )
       })
@@ -150,7 +150,7 @@ export class KioskEffects {
       switchMap(() =>
         from(this.API.getMaestroInfo()).pipe(
           map((res: PosData) => {
-            return KioskActions.getMaestroInfoSuccess({maestroInfo: res})
+            return KioskActions.getMaestroInfoSuccess({ maestroInfo: res })
           })
         )
       )
@@ -166,21 +166,21 @@ export class KioskEffects {
           let searchQuery = (action?.searchQuery ? action.searchQuery : '')
           return from(this.API.getProductListByStore(action.storeId, action.skip, action.limit, action.filters, action.isCategory, searchQuery, action.includeImage)).pipe(
             map((res) => {
-              return KioskActions.loadProductListByStoreSuccess({productListByStore: res})
+              return KioskActions.loadProductListByStoreSuccess({ productListByStore: res })
             }),
-            catchError((error) => of(KioskActions.loadProductListByStoreFailure({err: error})))
+            catchError((error) => of(KioskActions.loadProductListByStoreFailure({ err: error })))
           )
         } else {
           let searchQuery = (action?.searchQuery ? action.searchQuery : '')
           return from(this.API.getProductListByStore(action.storeId, action.skip, action.limit, '', action.isCategory, searchQuery, action.includeImage)).pipe(
             map((res) => {
               if (action?.clean) {
-                return KioskActions.loadProductListByStoreSuccess({productListByStore: res})
+                return KioskActions.loadProductListByStoreSuccess({ productListByStore: res })
               } else {
-                return KioskActions.updateProductList({listToAdd: res})
+                return KioskActions.updateProductList({ listToAdd: res })
               }
             }),
-            catchError((error) => of(KioskActions.loadProductListByStoreFailure({err: error})))
+            catchError((error) => of(KioskActions.loadProductListByStoreFailure({ err: error })))
           )
         }
       })
@@ -193,9 +193,9 @@ export class KioskEffects {
       switchMap((action) => {
         return from(this.API.getUnlinkedProductListByStore1(action.storeId, action.skip, action.limit, action.searchQuery)).pipe(
           map((res) => {
-            return KioskActions.loadUnlinkedProductListByStoreSuccess({unlinkedProductListByStore: res})
+            return KioskActions.loadUnlinkedProductListByStoreSuccess({ unlinkedProductListByStore: res })
           }),
-          catchError((error) => of(KioskActions.loadUnlinkedProductListByStoreFailure({error: error})))
+          catchError((error) => of(KioskActions.loadUnlinkedProductListByStoreFailure({ error: error })))
         )
       })
     )
@@ -208,38 +208,38 @@ export class KioskEffects {
       switchMap((action) => {
         return from(this.API.sendProductIdsTolinkToStore(action.storeId, action.productIds, action.isActivated)).pipe(
           map((res) => {
-            return KioskActions.sendProductIdsTolinkToStoreSuccess({responseMsg: res, responseType: 'success'})
+            return KioskActions.sendProductIdsTolinkToStoreSuccess({ responseMsg: res, responseType: 'success' })
           }),
-          catchError((error) => of(KioskActions.sendProductIdsTolinkToStoreFailure({error: error})))
+          catchError((error) => of(KioskActions.sendProductIdsTolinkToStoreFailure({ error: error })))
         )
       })
     )
   )
 
   sendProductandGroupIds$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.sendProductandGroupIds),
-      switchMap((action) => {
-        return from(this.API.sendProductsAndGroups(action.assetLinkids, action.groupIds)).pipe(
-          map((res) => {
-            return KioskActions.sendProudGroupAddedSuccess({responseMsg: res});
-          }),
-          catchError((error) => of(KioskActions.sendProductIdsTolinkToStoreFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.sendProductandGroupIds),
+    switchMap((action) => {
+      return from(this.API.sendProductsAndGroups(action.assetLinkids, action.groupIds)).pipe(
+        map((res) => {
+          return KioskActions.sendProudGroupAddedSuccess({ responseMsg: res });
+        }),
+        catchError((error) => of(KioskActions.sendProductIdsTolinkToStoreFailure({ error: error })))
+      );
+    })
+  )
   )
 
   addProductsAndGroupIds$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.addProductsAndGroupIds),
-      switchMap((action) => {
-        return from(this.API.addMultipleProductsToMultipleGroups(action.assetIds, action.groupIds)).pipe(
-          map((res) => {
-            return KioskActions.sendProudGroupAddedSuccess({responseMsg: res});
-          }),
-          catchError((error) => of(KioskActions.sendProductIdsTolinkToStoreFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.addProductsAndGroupIds),
+    switchMap((action) => {
+      return from(this.API.addMultipleProductsToMultipleGroups(action.assetIds, action.groupIds)).pipe(
+        map((res) => {
+          return KioskActions.sendProudGroupAddedSuccess({ responseMsg: res });
+        }),
+        catchError((error) => of(KioskActions.sendProductIdsTolinkToStoreFailure({ error: error })))
+      );
+    })
+  )
   )
 
 
@@ -248,27 +248,27 @@ export class KioskEffects {
     this.actions$.pipe(
       ofType(KioskActions.sendassetLinkMeta),
       switchMap(({
-                   assetLinkId,
-                   metaInfoStatus,
-                   metaInfoQty,
-                   metaInfoStorePrice,
-                   metaInfoIsActivated,
-                   storeId,
-                   skip,
-                   limit,
-                   filters,
-                   isCategory,
-                   searchQuery,
-                   includeImage,
-                   clean,
-                   updateMultiple,
-                   dynamicPriceData
-                 }) => {
+        assetLinkId,
+        metaInfoStatus,
+        metaInfoQty,
+        metaInfoStorePrice,
+        metaInfoIsActivated,
+        storeId,
+        skip,
+        limit,
+        filters,
+        isCategory,
+        searchQuery,
+        includeImage,
+        clean,
+        updateMultiple,
+        dynamicPriceData
+      }) => {
         return from(this.API.sendassetLinkMeta(assetLinkId, metaInfoStatus, metaInfoQty, metaInfoStorePrice, metaInfoIsActivated, dynamicPriceData)).pipe(
           map((res) => {
-            return KioskActions.assetLinkMetaSuccess({response: res});
+            return KioskActions.assetLinkMetaSuccess({ response: res });
           }),
-          catchError((error) => of(KioskActions.assetLinkMetaFailure({error: error, assetLinkId: assetLinkId}))),
+          catchError((error) => of(KioskActions.assetLinkMetaFailure({ error: error, assetLinkId: assetLinkId }))),
           tap((_) => {
             if (assetLinkId?.length > 1 || updateMultiple)
               this.store.dispatch(KioskActions.loadProductListByStore({
@@ -287,95 +287,95 @@ export class KioskEffects {
     ));
 
   removeProduct$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.removeProduct),
-      switchMap((action) => {
-        return from(this.API.removeProductByAssetLinkId(action.assetLinkIds)).pipe(
-          map((res) => {
-            return KioskActions.productRemovedByLinkIdSuccess({response: res, assetLinkId: action.assetLinkIds});
-          }),
-          catchError((error) => of(KioskActions.productRemovedByLinkIdFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.removeProduct),
+    switchMap((action) => {
+      return from(this.API.removeProductByAssetLinkId(action.assetLinkIds)).pipe(
+        map((res) => {
+          return KioskActions.productRemovedByLinkIdSuccess({ response: res, assetLinkId: action.assetLinkIds });
+        }),
+        catchError((error) => of(KioskActions.productRemovedByLinkIdFailure({ error: error })))
+      );
+    })
+  )
   )
 
 
   removeGroup$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.removeGroup),
-      switchMap((action) => {
-        return from(this.API.removeGroupByLinkIds(action.groupId, action.assetLinkId)).pipe(
-          map((res) => {
-            return KioskActions.removeGroupSuccess({response: res});
-          }),
-          catchError((error) => of(KioskActions.removeGroupFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.removeGroup),
+    switchMap((action) => {
+      return from(this.API.removeGroupByLinkIds(action.groupId, action.assetLinkId)).pipe(
+        map((res) => {
+          return KioskActions.removeGroupSuccess({ response: res });
+        }),
+        catchError((error) => of(KioskActions.removeGroupFailure({ error: error })))
+      );
+    })
+  )
   )
 
   getCategoryList$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.getCategoryList),
-      switchMap((action) => {
-        return from(this.API.getCategoriesList(action.skip, action.limit)).pipe(
-          map((res) => {
-            return KioskActions.getCategoryListSuccess({response: res});
-          }),
-          catchError((error) => of(KioskActions.getCategoryListFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.getCategoryList),
+    switchMap((action) => {
+      return from(this.API.getCategoriesList(action.skip, action.limit)).pipe(
+        map((res) => {
+          return KioskActions.getCategoryListSuccess({ response: res });
+        }),
+        catchError((error) => of(KioskActions.getCategoryListFailure({ error: error })))
+      );
+    })
+  )
   )
   getGroupList$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.getGroupList),
-      switchMap(() => {
-        return from(this.assetGroupService.getAssetGroupByType('product')).pipe(
-          map((res) => {
-            return KioskActions.getGroupListSuccess({response: res});
-          }),
-          catchError((error) => of(KioskActions.getGroupListFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.getGroupList),
+    switchMap(() => {
+      return from(this.assetGroupService.getAssetGroupByType('product')).pipe(
+        map((res) => {
+          return KioskActions.getGroupListSuccess({ response: res });
+        }),
+        catchError((error) => of(KioskActions.getGroupListFailure({ error: error })))
+      );
+    })
+  )
   )
 
   getConfig$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.getConfig),
-      switchMap(() => {
-        return from(this.assetConfigService.getAssetsConfig()).pipe(
-          map((res) => {
-            return KioskActions.getConfigSuccess({config: res});
-          }),
-          catchError((error) => of(KioskActions.getConfigFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.getConfig),
+    switchMap(() => {
+      return from(this.assetConfigService.getAssetsConfig()).pipe(
+        map((res) => {
+          return KioskActions.getConfigSuccess({ config: res });
+        }),
+        catchError((error) => of(KioskActions.getConfigFailure({ error: error })))
+      );
+    })
+  )
   )
 
 
   getImageUrlForProducts$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.getImageUrlForProducts),
-      switchMap((action) => {
-        return from(this.assetService.getOnCardImageUrl(action.aId, action.fData)).pipe(
-          map((res) => {
-            return KioskActions.getImageUrlForProductSuccess({response: res, index: action.index});
-          }),
-          catchError((error) => of(KioskActions.getImageUrlForProductFailure({error: error})))
-        );
-      })
-    )
+    ofType(KioskActions.getImageUrlForProducts),
+    switchMap((action) => {
+      return from(this.assetService.getOnCardImageUrl(action.aId, action.fData)).pipe(
+        map((res) => {
+          return KioskActions.getImageUrlForProductSuccess({ response: res, index: action.index });
+        }),
+        catchError((error) => of(KioskActions.getImageUrlForProductFailure({ error: error })))
+      );
+    })
+  )
   )
 
   getProductMetaInfoByLinkId$ = createEffect(() => this.actions$.pipe(
-      ofType(KioskActions.getProductMetaInfoByLinkId),
-      switchMap((action) => {
-        return from(this.API.getAssetLinkMetaById(action.linkId)).pipe(
-          map((res) => {
-            return KioskActions.getProductMetaInfoByLinkIdSuccess({response: res});
-          }),
-          catchError((error) => of(KioskActions.getProductMetaInfoByLinkIdFailure({err: error})))
-        );
-      })
-    )
+    ofType(KioskActions.getProductMetaInfoByLinkId),
+    switchMap((action) => {
+      return from(this.API.getAssetLinkMetaById(action.linkId)).pipe(
+        map((res) => {
+          return KioskActions.getProductMetaInfoByLinkIdSuccess({ response: res });
+        }),
+        catchError((error) => of(KioskActions.getProductMetaInfoByLinkIdFailure({ err: error })))
+      );
+    })
+  )
   )
 
   getKioskSettingsByModule$ = createEffect(() =>
@@ -384,11 +384,11 @@ export class KioskEffects {
       withLatestFrom(this.store.select(getKioskSettings)),
       switchMap(([_, stateData]) => {
         if (stateData) {
-          return of(KioskActions.getKioskSettingsSuccess({response: stateData}))
+          return of(KioskActions.getKioskSettingsSuccess({ response: stateData }))
         } else {
           return from(this.API.getKioskSettings().pipe(
-            map((value) => KioskActions.getKioskSettingsSuccess({response: value})),
-            catchError((error) => of(KioskActions.getKioskSettingsFailure({error: error})))
+            map((value) => KioskActions.getKioskSettingsSuccess({ response: value })),
+            catchError((error) => of(KioskActions.getKioskSettingsFailure({ error: error })))
           ))
         }
       })
@@ -400,8 +400,8 @@ export class KioskEffects {
       ofType(KioskActions.getKioskSettingsByModuleForSocket),
       switchMap((_) => {
         return from(this.API.getKioskSettings().pipe(
-          map((value) => KioskActions.getKioskSettingsSuccess({response: value})),
-          catchError((error) => of(KioskActions.getKioskSettingsFailure({error: error})))
+          map((value) => KioskActions.getKioskSettingsSuccess({ response: value })),
+          catchError((error) => of(KioskActions.getKioskSettingsFailure({ error: error })))
         ))
       })
     )
@@ -419,7 +419,7 @@ export class KioskEffects {
           switchMap((_) => [KioskActions.putAndLinkTimeAndDaySlotsToSelectedProductsSuccess()]),
           catchError((error) => {
             // this.messageService.add({ key: 'global-notification', severity: 'error', summary: 'Error', detail: 'Failed to update ' + 'Category Sequence' })
-            return of(KioskActions.putAndLinkTimeAndDaySlotsToSelectedProductsFailure({error: error}))
+            return of(KioskActions.putAndLinkTimeAndDaySlotsToSelectedProductsFailure({ error: error }))
           })
         ))
       )
@@ -450,7 +450,7 @@ export class KioskEffects {
       ofType(KioskActions.getCategoriesBySelectedStore),
       switchMap((action) =>
         from(this.API.getCategoriesByStore(action?.locationId).pipe(
-          map((value: IKioskCategory[]) => KioskActions.getCategoriesByStoreSuccess({response: value})),
+          map((value: IKioskCategory[]) => KioskActions.getCategoriesByStoreSuccess({ response: value })),
           catchError(() => {
             // this.messageService.add({ key: 'global-notification', severity: 'error', summary: 'Error', detail: 'Error while getting categories by store' })
 
@@ -478,9 +478,9 @@ export class KioskEffects {
           //   detail: 'Failed to update ' + 'Category Sequence'
           // }))),
           switchMap(() => {
-              return [KioskActions.getCategoriesBySelectedStore({locationId: action.locationId}),
-              ]
-            }
+            return [KioskActions.getCategoriesBySelectedStore({ locationId: action.locationId }),
+            ]
+          }
           )
         )
       )
@@ -511,8 +511,8 @@ export class KioskEffects {
           //   detail: 'Failed to update ' + 'Category Status'
           // }))),
           switchMap(() => {
-              return []
-            }
+            return []
+          }
           )
         )
       )
@@ -527,9 +527,9 @@ export class KioskEffects {
           map((res: ICategoryData[]) => {
             const sequencedCategoriesData = sequencedCategories(res)
             const categoriesWithImage = setCategoryImage(sequencedCategoriesData)
-            return KioskActions.getCategoriesSuccess({availableCategories: categoriesWithImage})
+            return KioskActions.getCategoriesSuccess({ availableCategories: categoriesWithImage })
           }),
-          catchError((error) => of(KioskActions.getCategoriesFailure({err: error})))
+          catchError((error) => of(KioskActions.getCategoriesFailure({ err: error })))
         ))
       })))
   getLayoutKioskOrderPage$ = createEffect(() =>
@@ -539,9 +539,9 @@ export class KioskEffects {
         return from(this.API.getKioskOrderPageLayout()).pipe(
           map((res: any) => {
             console.log(res);
-            return KioskActions.getLayoutKioskOrderPageSuccess({response: res})
+            return KioskActions.getLayoutKioskOrderPageSuccess({ response: res })
           }),
-          catchError((error) => of(KioskActions.getCategoriesFailure({err: error})))
+          catchError((error) => of(KioskActions.getCategoriesFailure({ err: error })))
         )
       })))
   addNewStoreForKioskUsingForm$ = createEffect(() =>
@@ -561,7 +561,7 @@ export class KioskEffects {
             return [
               KioskActions.loadBranchList(),
               // AssetsActions.loadAssetCountByType({ assetType: CONSTANT.ASSET_TYPES.LOCATION }),
-              KioskActions.addStore({isAddStoreSidebarOpen: false}),
+              KioskActions.addStore({ isAddStoreSidebarOpen: false }),
             ];
           }),
           catchError(() => {
@@ -585,9 +585,9 @@ export class KioskEffects {
         console.log(5555)
         return from(this.API.quantityCheck(action.productArray, action.storeId)).pipe(
           map((res: IQuantityStatus) => {
-            return KioskActions.quantityCheckSuccess({quantityStatus: res})
+            return KioskActions.quantityCheckSuccess({ quantityStatus: res })
           }),
-          catchError((error) => of(KioskActions.quantityCheckFailure({err: error})))
+          catchError((error) => of(KioskActions.quantityCheckFailure({ err: error })))
         )
       })
     )
@@ -599,9 +599,9 @@ export class KioskEffects {
       switchMap(() => {
         return from(this.API.getProductGroups()).pipe(
           map((res: IGroupData[]) => {
-            return KioskActions.getProductGroupsSuccess({productGroups: res})
+            return KioskActions.getProductGroupsSuccess({ productGroups: res })
           }),
-          catchError((error) => of(KioskActions.getProductGroupsFailure({err: error})))
+          catchError((error) => of(KioskActions.getProductGroupsFailure({ err: error })))
         )
       })
     )
@@ -611,7 +611,7 @@ export class KioskEffects {
       ofType(KioskActions.getAllPaymentGatewayList),
       switchMap(() =>
         from(this.API.effectGetAllPaymentGateways().pipe(
-          switchMap((value: GatewayList[]) => [KioskActions.getAllPaymentGatewayListSucces({response: value})]),
+          switchMap((value: GatewayList[]) => [KioskActions.getAllPaymentGatewayListSucces({ response: value })]),
           catchError(() => {
             return []
           })
@@ -727,7 +727,7 @@ export class KioskEffects {
           })
         )
       ),
-      map(() => ({type: 'NO_ACTION'}))
+      map(() => ({ type: 'NO_ACTION' }))
     )
   );
 
@@ -826,9 +826,9 @@ export class KioskEffects {
               }
             }),
             switchMap((res: IKisoskSettingsMetaData) => {
-              return [KioskActions.setKioskSettingsMetadata({kioskMetaData: res, groupType: action.groupType})]
+              return [KioskActions.setKioskSettingsMetadata({ kioskMetaData: res, groupType: action.groupType })]
             }),
-            catchError(() => of(KioskActions.showLoaderForGenericSettings({val: false})))
+            catchError(() => of(KioskActions.showLoaderForGenericSettings({ val: false })))
           );
         }
       })
@@ -841,7 +841,7 @@ export class KioskEffects {
       switchMap(() =>
         from(this.API.getKioskSettingsMetaDataByGroups().pipe(
           map((value) =>
-            KioskActions.getAllGroupsForKioskSettingsSuccess({res: value?.settings})),
+            KioskActions.getAllGroupsForKioskSettingsSuccess({ res: value?.settings })),
           catchError(() => [KioskActions.errorHandlerForGenericKioskSettings()])
         ))
       )
@@ -867,7 +867,7 @@ export class KioskEffects {
           }),
           map(() =>
             // console.log(value),
-            KioskActions.putGenericKioskSettingsSuccess({res: action.payload, moduleType: action.moduleType})),
+            KioskActions.putGenericKioskSettingsSuccess({ res: action.payload, moduleType: action.moduleType })),
           catchError(() => [KioskActions.errorHandlerForGenericKioskSettings()])
         ))
       )
@@ -879,19 +879,19 @@ export class KioskEffects {
       ofType(KioskActions.updateKioskStoreCategoryMetaInfo),
       switchMap((action) =>
         from(this.API.effectUpdateCategoryMetaInfo(action?.locationId, action?.payload).pipe(
-            tap(() => {
-              // this.messageService.add({
-              //   key: 'global-notification',
-              //   severity: 'success',
-              //   summary: 'Successfully Updated',
-              //   detail: `Kiosk Category Meta Info`
-              // });
-            }),
-            switchMap(() => {
-              return [KioskActions.getCategoriesBySelectedStore({locationId: action.locationId})]
-            }),
-            catchError((error) => of(KioskActions.KioskMetaDataSettingsFailure({err: error}))),
-          )
+          tap(() => {
+            // this.messageService.add({
+            //   key: 'global-notification',
+            //   severity: 'success',
+            //   summary: 'Successfully Updated',
+            //   detail: `Kiosk Category Meta Info`
+            // });
+          }),
+          switchMap(() => {
+            return [KioskActions.getCategoriesBySelectedStore({ locationId: action.locationId })]
+          }),
+          catchError((error) => of(KioskActions.KioskMetaDataSettingsFailure({ err: error }))),
+        )
         )))
   )
 
@@ -901,7 +901,7 @@ export class KioskEffects {
       switchMap(() => {
         return from(this.API.getKAgents()).pipe(
           map((res) => {
-            return KioskActions.getAllKagnetsSuccess({res: res})
+            return KioskActions.getAllKagnetsSuccess({ res: res })
           }),
           catchError(() => of(KioskActions.kAgentTabAPiFailure()))
         )
@@ -944,7 +944,7 @@ export class KioskEffects {
       switchMap(() => {
         return from(this.API.getKioskList()).pipe(
           map((res) => {
-            return KioskActions.getAvailableKioskSuccess({kioksData: res})
+            return KioskActions.getAvailableKioskSuccess({ kioksData: res })
           }),
           catchError(() => of(KioskActions.kAgentTabAPiFailure()))
         )
@@ -987,28 +987,12 @@ export class KioskEffects {
       switchMap((action) => {
         return from(this.API.getKAgentMetaData(action.module, action.typeId)).pipe(
           map((res: IKisoskSettingsMetaData[]) => {
-            return KioskActions.setKioskKAgentMetadata({kioskKAgentMetaData: res[0], typeId: action.typeId})
+            return KioskActions.setKioskKAgentMetadata({ kioskKAgentMetaData: res[0], typeId: action.typeId })
           }),
           catchError(() => of(KioskActions.kAgentTabAPiFailure()))
         )
       })
     )
   )
-
-  makeAPIcallFromKAgentMetaData$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(KioskActions.apiCallFromMetaDataOfKAgent),
-      switchMap((action) => {
-        return from(this.API.kAgentDynamicAPIFromMetadata(action.api, action.method, action.body)).pipe(
-          switchMap((_res: { msg: string }) => {
-            // this.messageService.add({key: 'global-notification', severity: 'success', detail: res?.msg});
-            return []
-          }),
-          catchError(() => of(KioskActions.kAgentTabAPiFailure()))
-        )
-      })
-    )
-  )
-
 
 }
