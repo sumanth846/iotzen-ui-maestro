@@ -10,8 +10,9 @@ import {provideEffects} from "@ngrx/effects";
 import {KioskEffects} from "src/app/state/kiosk/kiosk.effects";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
 import pk from '../../package.json';
-import {authenticationInterceptor} from "src/app/interceptors/httpInterceptor";
+import {authenticationInterceptor} from "../app/interceptors/httpInterceptor";
 import {provideClientHydration, withNoHttpTransferCache} from "@angular/platform-browser";
+import { AuthService } from './services/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,5 +31,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     provideHttpClient(withInterceptors([authenticationInterceptor])),
     ConfigService,
+    AuthService,
   ],
 };

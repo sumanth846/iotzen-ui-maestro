@@ -2,11 +2,12 @@ import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { SearchService } from 'src/app/services/search-service.service';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search-box',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './search-box.component.html',
   styleUrl: './search-box.component.scss'
 })
