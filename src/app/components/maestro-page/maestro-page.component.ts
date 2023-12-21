@@ -738,12 +738,6 @@ export class MaestroPageComponent implements OnInit, OnDestroy {
                   this.amountToBePaid = this.cartOrderId?.payment?.price?.total;
                   this.proceedToBill = true;
                   this.showLoader = false;
-                  // this.kioskOrderService.initiatePayment(data['_id']).subscribe((res)=>{
-                  //   this.proceedToBill = true;
-
-                  //   this.showLoader = false;
-                  //   this.rzPaymentId = res['paymentGateway']['id'];
-                  // }, ()=>{this.showLoader = false})
                 }, () => this.showLoader = false);
               }
               else {

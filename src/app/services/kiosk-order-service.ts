@@ -45,12 +45,6 @@ export class KioskOrderService {
         return this.http.put(url, body);
     }
 
-    initiatePayment(orderId) {
-        let url =
-            this.configService.appConfig.appBaseUrl + "payments/initiate/" + orderId;
-        return this.http.get(url);
-    }
-
     getQrCode(orderId): Observable<QrRes> {
         let url =
             this.configService.appConfig.appBaseUrl +
@@ -110,11 +104,6 @@ export class KioskOrderService {
         return this.http.put(url, body);
     }
 
-    getAccountName() {
-        let url = this.configService.appConfig.appBaseUrl + "account/self/data";
-        return this.http.get(url);
-    }
-
     getRecieptContent(orderId: string) {
         let url =
             this.configService.appConfig.appBaseUrl +
@@ -124,14 +113,6 @@ export class KioskOrderService {
         }
     }
 
-    getOrderSummary(orderId: string) {
-        let url =
-            this.configService.appConfig.appBaseUrl +
-            `payments/getRecieptContent/orderId/${orderId}?type=orderSummary`;
-        if (orderId) {
-            return this.http.get(url);
-        }
-    }
 
     sendRecieptOnline(orderId: string, email: string) {
         let url =
@@ -156,10 +137,6 @@ export class KioskOrderService {
         if (orderId && address) {
             return this.http.post(url, body);
         }
-    }
-
-    get nativeWindow(): any {
-        return _window();
     }
 
 }
