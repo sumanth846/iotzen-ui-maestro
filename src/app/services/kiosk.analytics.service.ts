@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './config.service';
-import { DownloadUtilService } from './download.util.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class KioskAnalyticsService {
 
-    constructor(private http: HttpClient, public configService: ConfigService, private downloadService: DownloadUtilService) {
+    constructor(private http: HttpClient, public configService: ConfigService) {
     }
 
     getProductSalesByStore(startDateMilliSec, endDateMilliSec, reportType, pickUpStoreIds, isCount, skip?, limit?, orderSource?) {

@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 // import { ICategorySequencePayload } from '../../../state/Assets/interfaces/IAsset.category.model';
 import {
     ICategoryMetaInfoPayload, ICategorySequencePayloadStoreLevel, IStoreCategoryUpdatePayload, AvailableKiosks, IGroupsOfKioskSettingsWithModule, IKioskTableFormSettings, IKisoskSettingsMetaData, IPayByCashCartParam,
-    IPayloadForDelinkingSlots, RazorPay, KAgent
+    IPayloadForDelinkingSlots, KAgent
 } from '../interface/maestro-interface';
 // import { number } from 'echarts';
 import { Observable, } from 'rxjs';
